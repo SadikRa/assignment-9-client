@@ -9,21 +9,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { ICustomizableMeal } from "@/types";
+import { IProduct } from "@/types"; // Updated type for product
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const ProductCard = ({ product }: { product: ICustomizableMeal }) => {
+const ProductCard = ({ product }: { product: IProduct }) => {
   return (
     <div>
       <Card className="p-3 w-64">
         <CardHeader className="relative p-0 h-48">
-          <Link href={`/meals/${product?._id}`} passHref>
+          <Link href={`/meals/${product?.id}`} passHref>
             <Image
               src={
                 product?.imgUrl[0] ||
-                "https://psediting.websites.co.in/obaju-turquoise/img/product-placeholder.png"
+                "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
               }
               width={500}
               height={500}
@@ -33,33 +33,33 @@ const ProductCard = ({ product }: { product: ICustomizableMeal }) => {
           </Link>
         </CardHeader>
 
-        <CardContent className=" p-0 mt-2">
+        <CardContent className="p-0 mt-2">
           <CardTitle
-            title={product?.name}
+            title={product?.title}
             className="font-semibold cursor-pointer text-sm"
           >
-            {product?.name.length > 20
-              ? product?.name?.slice(0, 20) + "..."
-              : product?.name}
+            {product?.title.length > 20
+              ? product?.title?.slice(0, 20) + "..."
+              : product?.title}
           </CardTitle>
 
           <div className="flex items-center justify-between my-2">
             <p className="text-sm text-gray-600">
-              <span className="font-semibold">
-                $ {product?.price.toFixed(2)}
-              </span>
+              {product?.price && (
+                <span className="font-semibold">$ {product?.price}</span>
+              )}
             </p>
 
             <div className="flex items-center justify-center gap-1">
               <Star className="w-4 h-4" fill="orange" stroke="orange" />
+              <p className="text-sm">{product?.rating}</p>
             </div>
-            <p></p>
           </div>
         </CardContent>
 
         <CardFooter className="block p-0">
           <div className="flex gap-2 items-center justify-between">
-            <Link href={`/meals/${product?._id}`} passHref>
+            <Link href={`/meals/${product?.id}`} passHref>
               <Button
                 size="sm"
                 variant="outline"

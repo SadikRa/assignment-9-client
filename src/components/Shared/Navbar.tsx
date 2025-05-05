@@ -1,5 +1,5 @@
 "use client";
-import logo from "../../public/cook.gif";
+import logo from "../../public/review/stars.gif";
 import { LogOut, LucideFilePlus2 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -24,6 +24,12 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
 import CartSidebar from "../ui/core/Cart";
 
+const NavbarItems = [
+  { name: "Products", path: "/products" },
+  { name: "About", path: "/about" },
+  { name: "Contact", path: "/contact" },
+];
+
 export default function Navbar() {
   const { user, setIsLoading } = useUser();
   const pathname = usePathname();
@@ -45,49 +51,28 @@ export default function Navbar() {
     <header className="border-b bg-background w-full sticky top-0 z-10">
       <div className="container flex justify-between items-center mx-auto h-16 px-5">
         <Link href="/">
-          <h1 className="text-2xl gap-2 font-black flex items-center">
+          <h1 className="text-2xl gap-1 font-black flex items-start">
             <Image alt="logo" src={logo} height={50} width={50} />{" "}
-            <span className="text-slate-400">Plated</span>
-            <span className="text-yellow-400">4U</span>
+            <span className="text-gray-700">Criti</span>
+            <span className="text-yellow-400">Check</span>
           </h1>
         </Link>
         <nav>
           <ul className="flex gap-5">
             <li>
-              <Link
-                href="/meals"
-                className={`${
-                  pathname === "/meals"
-                    ? "text-yellow-400 font-bold"
-                    : "text-gray-700 hover:text-yellow-400"
-                }`}
-              >
-                Meals
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/about"
-                className={`${
-                  pathname === "/about"
-                    ? "text-yellow-400 font-bold"
-                    : "text-gray-700 hover:text-yellow-400"
-                }`}
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                className={`${
-                  pathname === "/contact"
-                    ? "text-yellow-400 font-bold"
-                    : "text-gray-700 hover:text-yellow-400"
-                }`}
-              >
-                Contact
-              </Link>
+              {NavbarItems.map((navitem) => (
+                <Link
+                  key={navitem.name}
+                  href={navitem.path}
+                  className={`p-2 font-extrabold ${
+                    pathname === navitem.path
+                      ? "text-yellow-400"
+                      : "text-gray-700 hover:text-yellow-400"
+                  }`}
+                >
+                  {navitem.name}
+                </Link>
+              ))}
             </li>
           </ul>
         </nav>
@@ -106,9 +91,9 @@ export default function Navbar() {
 
           {user?.email ? (
             <>
-              <Link href="/add-meal">
+              <Link href="/add-review">
                 <Button className="rounded-full cursor-pointer">
-                  <LucideFilePlus2 /> Customized Meal
+                  <LucideFilePlus2 /> Add Review
                 </Button>
               </Link>
 

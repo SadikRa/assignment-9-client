@@ -59,11 +59,11 @@ export default function RegisterForm() {
       const formData = new FormData();
       formData.append("data", JSON.stringify(data));
       formData.append("file", imageFiles[0] as File);
-      const res = await registerUser(formData);
+      const res = await registerUser(data);
       console.log(res);
       if (res?.success) {
-        toast.success(res?.message);
-        router.push("/");
+        toast.success(`${res?.message} please login`);
+        router.push("/login");
       } else {
         toast.error(res?.message);
       }

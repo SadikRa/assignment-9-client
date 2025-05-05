@@ -10,12 +10,13 @@ export default function Footer() {
         <Link href="/">
           <h1 className="text-2xl gap-2 font-black flex items-center">
             <Image alt="logo" src={logo} height={50} width={50} />{" "}
-            <span className="text-slate-400">Plated</span>
-            <span className="text-yellow-400">4U</span>
+            <span className="text-gray-700">Criti</span>
+            <span className="text-yellow-400">Check</span>
           </h1>
         </Link>
-        <p className="mt-2 text-gray-500">
-          Delicious meals delivered to your doorstep.
+        <p className="mt-2 text-gray-500 w-2/3">
+          A trusted platform where users share honest product reviews, ratings,
+          and insights to help others make smarter buying decisions.
         </p>
 
         <div className="flex justify-center space-x-6 mt-4">
@@ -40,7 +41,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-4 text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} MealBox. All rights reserved.
+          &copy; {new Date().getFullYear()}. All rights reserved.
         </div>
       </div>
     </footer>

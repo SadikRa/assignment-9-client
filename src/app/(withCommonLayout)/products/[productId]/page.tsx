@@ -1,23 +1,23 @@
-import ProductDetails from "@/components/modules/meals/ProductDetails";
+import ProductDetails from "@/components/modules/products/ProductDetails";
 import Banner from "@/components/Shared/CustomBanner";
 import CustomContainer from "@/components/ui/core/CustomContainer";
-import { getSingleProduct } from "@/services/Product";
 
 const ProductDetailsPage = async ({
   params,
 }: {
-  params: Promise<{ mealId: string }>;
+  params: Promise<{ productId: string }>;
 }) => {
-  const { mealId } = await params;
+  const { productId } = await params;
+  console.log({ productId });
 
-  const { data: product } = await getSingleProduct(mealId);
+  // const { data: product } = await getSingleProduct(productId);
   return (
     <CustomContainer>
       <Banner
         heading={"Personalize Your Meal"}
         description={"Choose your desiered flavours"}
       />
-      <ProductDetails product={product[0]} />
+      <ProductDetails />
     </CustomContainer>
   );
 };
