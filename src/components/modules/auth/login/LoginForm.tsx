@@ -58,7 +58,7 @@ export default function LoginForm() {
 
   const defaultValue = {
     email: "trrabby1@gmail.com",
-    password: "admin123",
+    password: "123456",
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
