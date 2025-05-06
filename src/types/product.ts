@@ -28,6 +28,7 @@ export interface Review {
   createdAt: string;
   updatedAt: string;
   isDeleted: boolean;
+  account: Account;
   votes: Vote[];
   ReviewComment: ReviewComment[];
 }
@@ -48,4 +49,16 @@ export interface ReviewComment {
   createdAt: string;
   updatedAt: string;
   isDeleted: boolean;
+}
+
+export interface Account {
+  id: string;
+  email: string;
+  password: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
+  isDeleted: boolean;
+  isCompleteProfile: boolean;
 }
