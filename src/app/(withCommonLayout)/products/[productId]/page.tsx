@@ -1,6 +1,7 @@
-import ProductDetails from "@/components/modules/products/ProductDetails";
+import ProductReviewDetails from "@/components/modules/products/ProductDetails";
 import Banner from "@/components/Shared/CustomBanner";
 import CustomContainer from "@/components/ui/core/CustomContainer";
+import { getSingleProduct } from "@/services/Product";
 
 const ProductDetailsPage = async ({
   params,
@@ -8,16 +9,17 @@ const ProductDetailsPage = async ({
   params: Promise<{ productId: string }>;
 }) => {
   const { productId } = await params;
-  console.log({ productId });
+  // console.log(productId);
 
-  // const { data: product } = await getSingleProduct(productId);
+  const { data: product } = await getSingleProduct(productId);
+  // console.log(product);
   return (
     <CustomContainer>
       <Banner
-        heading={"Personalize Your Meal"}
-        description={"Choose your desiered flavours"}
+        heading={"Review Product"}
+        description={"We value your feedback and appreciate your time."}
       />
-      <ProductDetails />
+      <ProductReviewDetails product={product} />
     </CustomContainer>
   );
 };
