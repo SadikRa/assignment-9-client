@@ -1,72 +1,81 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import data from "../../../dummy_json/product_review.json";
+import { IProduct } from "@/types";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-export default function ProductReviewDetails() {
-  const { id } = useParams();
-  const product = data.find((item) => item.id === id);
-
+export default function ProductReviewDetails({
+  product,
+}: {
+  product: IProduct;
+}) {
   if (!product) return notFound();
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
-      <p className="text-sm text-gray-500 mb-1">Category: {product.category}</p>
-      <p className="text-sm text-gray-500 mb-4">
-        By {product.author.name} on{" "}
-        {new Date(product.createdAt).toLocaleDateString()}
-      </p>
-
-      {product.imgUrl && product.imgUrl.length > 0 && (
-        <div className="mb-4">
+    <main className="max-w-5xl mx-auto px-4 py-6 space-y-8">
+      {/* Product Cover Image */}
+      {product.imageUrl ? (
+        <div className="w-full h-64 relative rounded-xl overflow-hidden shadow">
           <Image
-            src={product.imgUrl[0]}
-            alt={product.title}
-            width={600}
-            height={400}
-            className="rounded-xl"
+            src={
+              product?.imageUrl ||
+              "https://res.cloudinary.com/divyajujl/image/upload/v1746550148/online-learning-design-concept-top-view-student-table-with-tablet-headphone-stationeries-blue-table-background-1536x1025_u6sboo.jpg"
+            }
+            alt={product.name}
+            fill
+            className="object-cover"
           />
         </div>
-      )}
-
-      <p className="mb-4">{product.description}</p>
-
-      <div className="mb-4">
-        <span className="font-semibold">Rating:</span> {product.rating}/5
-      </div>
-
-      {product.isPremium && product.price !== undefined && (
-        <div className="mb-4 text-orange-600 font-medium">
-          Premium Review – Price: {product.price} credits
+      ) : (
+        <div className="w-full h-64 flex items-center justify-center bg-gray-200 rounded-xl text-gray-500">
+          No Image Available
         </div>
       )}
 
-      <div className="mb-4">
-        <span className="font-semibold">Votes:</span> 👍 {product.votes.upvotes}{" "}
-        / 👎 {product.votes.downvotes}
-      </div>
+      {/* Product Details */}
+      <section className="space-y-2">
+        <h1 className="text-4xl font-extrabold text-gray-900">
+          {product.name}
+        </h1>
+        <p className="text-xl font-semibold text-green-700">
+          ${product.price.toFixed(2)}
+        </p>
+        <p className="text-gray-600">{product.description}</p>
+        <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+          {product.category}
+        </span>
+      </section>
 
-      {product.comments.length > 0 && (
-        <div className="mt-6">
-          <h2 className="text-xl font-semibold mb-2">Comments:</h2>
-          <ul className="space-y-2">
-            {product.comments.map((comment) => (
-              <li key={comment.id} className="border p-3 rounded-md bg-gray-50">
-                <p className="text-sm font-semibold">
-                  {comment.author}{" "}
-                  <span className="text-gray-400 text-xs">
-                    ({new Date(comment.createdAt).toLocaleDateString()})
-                  </span>
+      {/* Reviews Section */}
+      <section>
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">
+          Customer Reviews
+        </h2>
+        {product.reviews?.length > 0 ? (
+          <div className="grid gap-4 sm:grid-cols-2">
+            {product.reviews.map((review) => (
+              <div
+                key={review.id}
+                className="bg-white border border-gray-200 rounded-xl p-4 shadow hover:shadow-md transition"
+              >
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {review.title}
+                </h3>
+                <p className="text-gray-700 mb-2">{review.description}</p>
+                <p className="text-yellow-600 font-medium mb-1">
+                  ⭐ {review.rating} / 5
                 </p>
-                <p>{comment.content}</p>
-              </li>
+                <p className="text-sm text-gray-500">
+                  Votes: {review.votes?.length ?? 0} | Comments:{" "}
+                  {review.ReviewComment?.length ?? 0}
+                </p>
+              </div>
             ))}
-          </ul>
-        </div>
-      )}
+          </div>
+        ) : (
+          <p className="text-gray-500">No reviews yet.</p>
+        )}
+      </section>
     </main>
   );
 }

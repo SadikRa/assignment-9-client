@@ -1,323 +1,104 @@
 [
   {
-    "id": "1",
-    "title": "Samsung Galaxy S24 Ultra Review",
-    "description": "An excellent phone with a great camera and smooth performance.",
-    "rating": 5,
-    "category": "Gadgets",
-    "purchaseSource": "Samsung Official Store",
-    "imgUrl": [
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
-    ],
-    "isPremium": false,
-    "status": "published",
-    "author": {
-      "id": "u1",
-      "name": "Alice",
-      "role": "user"
-    },
-    "createdAt": "2025-04-25T10:30:00Z",
-    "votes": {
-      "upvotes": 120,
-      "downvotes": 3
-    },
-    "comments": [],
-    "adminModeration": {
-      "approvedBy": "admin1",
-      "approvedAt": "2025-04-26T08:00:00Z",
-      "unpublishedReason": null
-    },
-    "preview": "An excellent phone with a great...",
-    "relatedReviews": ["2", "3"]
-  },
-  {
-    "id": "2",
-    "title": "Nike Air Zoom Pegasus 40",
-    "description": "Comfortable and lightweight shoes perfect for runners.",
-    "rating": 4,
-    "category": "Clothing",
-    "purchaseSource": "Nike Store",
-    "imgUrl": [
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
-    ],
-    "isPremium": true,
-    "price": 5,
-    "status": "published",
-    "author": {
-      "id": "u2",
-      "name": "Bob",
-      "role": "user"
-    },
-    "createdAt": "2025-04-20T12:00:00Z",
-    "votes": {
-      "upvotes": 90,
-      "downvotes": 10
-    },
-    "comments": [
+    "id": "ff4dacfc-41b7-45cb-a288-5a2e0cefccfc",
+    "name": "Product 1 Name",
+    "price": 20.02,
+    "description": "Description for product 1.",
+    "imageUrl": null,
+    "category": "GADGETS",
+    "isDeleted": false,
+    "createdAt": "2025-05-06T12:33:55.871000Z",
+    "updatedAt": "2025-05-06T12:33:55.871000Z",
+    "companyId": null,
+    "reviews": [
       {
-        "id": "c1",
-        "author": "Alice",
-        "content": "I agree! These are amazing.",
-        "createdAt": "2025-04-21T10:10:00Z"
+        "id": "review_1",
+        "title": "Review Title 1",
+        "description": "This is a review for product 1.",
+        "rating": 5,
+        "categoryId": "cat_1",
+        "productId": "ff4dacfc-41b7-45cb-a288-5a2e0cefccfc",
+        "purchaseSource": "Online",
+        "images": [],
+        "isPremium": false,
+        "accountId": "64ec42b1-92e5-45ea-b53d-2180363d0009",
+        "status": "PENDING",
+        "moderationNote": null,
+        "createdAt": "2025-05-14T12:33:55.871000Z",
+        "updatedAt": "2025-05-14T12:33:55.871000Z",
+        "isDeleted": false,
+        "votes": [
+          {
+            "id": "vote_1",
+            "reviewId": "review_1",
+            "accountId": "64ec42b1-92e5-45ea-b53d-2180363d0009",
+            "createdAt": "2025-05-14T12:33:55.871000Z",
+            "updatedAt": "2025-05-14T12:33:55.871000Z"
+          }
+        ],
+        "ReviewComment": [
+          {
+            "id": "comment_1",
+            "reviewId": "review_1",
+            "accountId": "64ec42b1-92e5-45ea-b53d-2180363d0009",
+            "content": "Comment on product 1.",
+            "createdAt": "2025-05-14T12:33:55.871000Z",
+            "updatedAt": "2025-05-14T12:33:55.871000Z",
+            "isDeleted": false
+          }
+        ]
       }
-    ],
-    "adminModeration": {
-      "approvedBy": "admin1",
-      "approvedAt": "2025-04-22T09:00:00Z",
-      "unpublishedReason": null
-    },
-    "preview": "Comfortable and lightweight...",
-    "relatedReviews": ["1"]
+    ]
   },
   {
-    "id": "3",
-    "title": "Atomic Habits by James Clear",
-    "description": "A powerful book on building good habits and breaking bad ones.",
-    "rating": 5,
-    "category": "Books",
-    "purchaseSource": "Rokomari",
-    "imgUrl": [
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
-    ],
-    "isPremium": false,
-    "status": "published",
-    "author": {
-      "id": "u3",
-      "name": "Charlie",
-      "role": "user"
-    },
-    "createdAt": "2025-03-15T11:45:00Z",
-    "votes": {
-      "upvotes": 200,
-      "downvotes": 5
-    },
-    "comments": [],
-    "adminModeration": {
-      "approvedBy": "admin2",
-      "approvedAt": "2025-03-16T10:30:00Z",
-      "unpublishedReason": null
-    },
-    "preview": "A powerful book on building...",
-    "relatedReviews": ["2"]
-  },
-  {
-    "id": "4",
-    "title": "Sony WH-1000XM5 Headphones",
-    "description": "Top-tier noise cancellation and sound quality.",
-    "rating": 5,
-    "category": "Gadgets",
-    "purchaseSource": "Sony Showroom",
-    "imgUrl": [
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
-    ],
-    "isPremium": true,
-    "price": 7,
-    "status": "published",
-    "author": {
-      "id": "u4",
-      "name": "Diana",
-      "role": "user"
-    },
-    "createdAt": "2025-02-10T09:00:00Z",
-    "votes": {
-      "upvotes": 150,
-      "downvotes": 2
-    },
-    "comments": [],
-    "adminModeration": {
-      "approvedBy": "admin1",
-      "approvedAt": "2025-02-11T08:00:00Z",
-      "unpublishedReason": null
-    },
-    "preview": "Top-tier noise cancellation...",
-    "relatedReviews": ["1"]
-  },
-  {
-    "id": "5",
-    "title": "Levi's 511 Slim Fit Jeans",
-    "description": "Stylish and comfortable, a must-have for daily wear.",
-    "rating": 4,
-    "category": "Clothing",
-    "purchaseSource": "Levi’s Outlet",
-    "imgUrl": [
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
-    ],
-    "isPremium": false,
-    "status": "published",
-    "author": {
-      "id": "u5",
-      "name": "Eve",
-      "role": "user"
-    },
-    "createdAt": "2025-01-18T10:00:00Z",
-    "votes": {
-      "upvotes": 70,
-      "downvotes": 4
-    },
-    "comments": [],
-    "adminModeration": {
-      "approvedBy": "admin2",
-      "approvedAt": "2025-01-19T12:00:00Z",
-      "unpublishedReason": null
-    },
-    "preview": "Stylish and comfortable, a...",
-    "relatedReviews": ["2", "4"]
-  },
-  {
-    "id": "6",
-    "title": "MacBook Air M2",
-    "description": "Super lightweight, powerful battery and efficient performance.",
-    "rating": 5,
-    "category": "Gadgets",
-    "purchaseSource": "Apple Store",
-    "imgUrl": [
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
-    ],
-    "isPremium": true,
-    "price": 10,
-    "status": "published",
-    "author": {
-      "id": "u6",
-      "name": "Frank",
-      "role": "user"
-    },
-    "createdAt": "2025-04-10T11:00:00Z",
-    "votes": {
-      "upvotes": 300,
-      "downvotes": 8
-    },
-    "comments": [],
-    "adminModeration": {
-      "approvedBy": "admin1",
-      "approvedAt": "2025-04-11T10:00:00Z",
-      "unpublishedReason": null
-    },
-    "preview": "Super lightweight, powerful...",
-    "relatedReviews": ["1", "4"]
-  },
-  {
-    "id": "7",
-    "title": "Harry Potter Box Set",
-    "description": "All 7 books in one magical collection.",
-    "rating": 5,
-    "category": "Books",
-    "purchaseSource": "Amazon",
-    "imgUrl": [
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
-    ],
-    "isPremium": false,
-    "status": "published",
-    "author": {
-      "id": "u7",
-      "name": "Grace",
-      "role": "user"
-    },
-    "createdAt": "2025-02-05T09:00:00Z",
-    "votes": {
-      "upvotes": 180,
-      "downvotes": 1
-    },
-    "comments": [],
-    "adminModeration": {
-      "approvedBy": "admin3",
-      "approvedAt": "2025-02-06T11:00:00Z",
-      "unpublishedReason": null
-    },
-    "preview": "All 7 books in one magical...",
-    "relatedReviews": ["3"]
-  },
-  {
-    "id": "8",
-    "title": "Samsung Smart TV QLED 4K",
-    "description": "Excellent visuals and Smart Hub features make it a great buy.",
-    "rating": 4,
-    "category": "Gadgets",
-    "purchaseSource": "Transcom Digital",
-    "imgUrl": [
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
-    ],
-    "isPremium": true,
-    "price": 8,
-    "status": "published",
-    "author": {
-      "id": "u8",
-      "name": "Helen",
-      "role": "user"
-    },
-    "createdAt": "2025-03-01T10:00:00Z",
-    "votes": {
-      "upvotes": 110,
-      "downvotes": 5
-    },
-    "comments": [],
-    "adminModeration": {
-      "approvedBy": "admin1",
-      "approvedAt": "2025-03-02T12:00:00Z",
-      "unpublishedReason": null
-    },
-    "preview": "Excellent visuals and Smart...",
-    "relatedReviews": ["1", "4"]
-  },
-  {
-    "id": "9",
-    "title": "Tote Leather Bag",
-    "description": "Durable and elegant, suitable for everyday use.",
-    "rating": 4,
-    "category": "Clothing",
-    "purchaseSource": "Arong",
-    "imgUrl": [
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
-    ],
-    "isPremium": false,
-    "status": "published",
-    "author": {
-      "id": "u9",
-      "name": "Ivy",
-      "role": "user"
-    },
-    "createdAt": "2025-01-05T14:00:00Z",
-    "votes": {
-      "upvotes": 60,
-      "downvotes": 6
-    },
-    "comments": [],
-    "adminModeration": {
-      "approvedBy": "admin3",
-      "approvedAt": "2025-01-06T10:00:00Z",
-      "unpublishedReason": null
-    },
-    "preview": "Durable and elegant...",
-    "relatedReviews": ["2"]
-  },
-  {
-    "id": "10",
-    "title": "Kindle Paperwhite",
-    "description": "Best for reading with glare-free screen and long battery.",
-    "rating": 5,
-    "category": "Gadgets",
-    "purchaseSource": "Daraz",
-    "imgUrl": [
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg"
-    ],
-    "isPremium": false,
-    "status": "published",
-    "author": {
-      "id": "u10",
-      "name": "Jake",
-      "role": "user"
-    },
-    "createdAt": "2025-03-30T08:30:00Z",
-    "votes": {
-      "upvotes": 210,
-      "downvotes": 0
-    },
-    "comments": [],
-    "adminModeration": {
-      "approvedBy": "admin1",
-      "approvedAt": "2025-03-31T08:00:00Z",
-      "unpublishedReason": null
-    },
-    "preview": "Best for reading with glare-free...",
-    "relatedReviews": ["3"]
+    "id": "b67352b9-80b2-421a-b635-4b6bd180b1d8",
+    "name": "Product 2 Name",
+    "price": 29.98,
+    "description": "Description for product 2.",
+    "imageUrl": null,
+    "category": "ELECTRONICS",
+    "isDeleted": false,
+    "createdAt": "2025-05-06T12:33:55.871000Z",
+    "updatedAt": "2025-05-06T12:33:55.871000Z",
+    "companyId": null,
+    "reviews": [
+      {
+        "id": "review_2",
+        "title": "Review Title 2",
+        "description": "This is a review for product 2.",
+        "rating": 5,
+        "categoryId": "cat_2",
+        "productId": "b67352b9-80b2-421a-b635-4b6bd180b1d8",
+        "purchaseSource": "Online",
+        "images": [],
+        "isPremium": false,
+        "accountId": "86dcbbc3-6d1d-45db-8a73-b18f76bf9446",
+        "status": "PENDING",
+        "moderationNote": null,
+        "createdAt": "2025-05-14T12:33:55.871000Z",
+        "updatedAt": "2025-05-14T12:33:55.871000Z",
+        "isDeleted": false,
+        "votes": [
+          {
+            "id": "vote_2",
+            "reviewId": "review_2",
+            "accountId": "86dcbbc3-6d1d-45db-8a73-b18f76bf9446",
+            "createdAt": "2025-05-14T12:33:55.871000Z",
+            "updatedAt": "2025-05-14T12:33:55.871000Z"
+          }
+        ],
+        "ReviewComment": [
+          {
+            "id": "comment_2",
+            "reviewId": "review_2",
+            "accountId": "86dcbbc3-6d1d-45db-8a73-b18f76bf9446",
+            "content": "Comment on product 2.",
+            "createdAt": "2025-05-14T12:33:55.871000Z",
+            "updatedAt": "2025-05-14T12:33:55.871000Z",
+            "isDeleted": false
+          }
+        ]
+      }
+    ]
   }
 ]

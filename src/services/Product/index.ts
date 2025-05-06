@@ -18,7 +18,7 @@ export const getAllProducts = async (
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/meals?limit=${limit}&page=${page}&${params}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/product?limit=${limit}&page=${page}&${params}`,
       {
         next: {
           tags: ["PRODUCT"],
@@ -36,7 +36,7 @@ export const getAllProducts = async (
 export const getSingleProduct = async (productId: string) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/meals/${productId}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/product/${productId}`,
       {
         next: {
           tags: ["PRODUCT"],
@@ -54,7 +54,7 @@ export const getSingleProduct = async (productId: string) => {
 export const addProduct = async (productData: FormData): Promise<any> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/meals/add-meal`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/product/add-meal`,
       {
         method: "POST",
         body: productData,
