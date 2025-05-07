@@ -56,7 +56,7 @@ export const loginUser = async (userData: FieldValues) => {
 export const UserInfo = async (email: string) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/users?email=${email}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/user/${email}`,
       {
         method: "GET",
         headers: {

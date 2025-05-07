@@ -15,12 +15,13 @@ export interface IProduct {
 export interface Review {
   id: string;
   title: string;
-  description: string;
   rating: number;
-  categoryId: string;
   productId: string;
   purchaseSource: string;
-  images: string;
+  premiumPrice: number;
+  previewContent: string;
+  fullContent: string;
+  images: string[];
   isPremium: boolean;
   accountId: string;
   status: string;
@@ -28,15 +29,17 @@ export interface Review {
   createdAt: string;
   updatedAt: string;
   isDeleted: boolean;
-  account: Account;
   votes: Vote[];
   ReviewComment: ReviewComment[];
+  account: Account;
 }
 
 export interface Vote {
   id: string;
   reviewId: string;
   accountId: string;
+  upVote: number;
+  downVote: number;
   createdAt: string;
   updatedAt: string;
 }
