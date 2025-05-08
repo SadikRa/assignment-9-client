@@ -50,11 +50,11 @@ export const getSingleProduct = async (productId: string) => {
   }
 };
 
-// add product
-export const addProduct = async (productData: FormData): Promise<any> => {
+// Create  product
+export const createProduct = async (productData: FormData): Promise<any> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/product/add-meal`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/product/create-product`,
       {
         method: "POST",
         body: productData,
@@ -77,7 +77,7 @@ export const updateProduct = async (
 ): Promise<any> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/meals/${productId}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/product/update-product/${productId}`,
       {
         method: "PATCH",
         body: productData,

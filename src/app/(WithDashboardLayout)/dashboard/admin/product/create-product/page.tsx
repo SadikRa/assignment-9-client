@@ -1,9 +1,11 @@
-const page = () => {
+import CreateProductForm from "@/components/modules/dashboard/dashboard-product/CreateProductsForm";
+
+const CreateProductPage = () => {
   return (
-    <div>
-      <h1>hello sadik</h1>
+    <div className="flex items-center justify-center">
+      <CreateProductForm />
     </div>
   );
 };
 
-export default page;
+export default CreateProductPage;
