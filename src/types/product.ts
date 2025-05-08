@@ -10,7 +10,13 @@ export interface IProduct {
   updatedAt: string;
   companyId: string;
   reviews: Review[];
+  company?: {
+    id: string;
+    name: string;
+  } | null;
 }
+
+export type ProductCategory = "GADGETS" | "CLOTHING" | "BOOKS";
 
 export interface Review {
   id: string;
