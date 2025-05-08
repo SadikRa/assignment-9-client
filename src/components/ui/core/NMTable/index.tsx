@@ -6,7 +6,6 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
 import {
   Table,
   TableBody,
@@ -16,15 +15,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-interface NMTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+interface NMTableProps<TData> {
+  columns: ColumnDef<TData>[];
   data: TData[];
 }
 
-export function NMTable<TData, TValue>({
-  columns,
-  data,
-}: NMTableProps<TData, TValue>) {
+export function NMTable<TData>({ columns, data }: NMTableProps<TData>) {
   const table = useReactTable({
     data,
     columns,
@@ -32,26 +28,22 @@ export function NMTable<TData, TValue>({
   });
 
   return (
-    <div className="my-5">
+    <div className="my-5 rounded-md border">
       <Table>
-        <TableHeader>
-          {table?.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="bg-gray-200">
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead
-                    className="font-bold text-gray-600"
-                    key={header.id}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
+        <TableHeader className="bg-gray-100">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead
+                  key={header.id}
+                  className="font-semibold text-gray-700"
+                >
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
@@ -61,9 +53,10 @@ export function NMTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="hover:bg-gray-50"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell className="py-4" key={cell.id}>
+                  <TableCell key={cell.id} className="py-3">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -72,7 +65,7 @@ export function NMTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                No products found.
               </TableCell>
             </TableRow>
           )}

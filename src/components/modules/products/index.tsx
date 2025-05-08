@@ -1,3 +1,4 @@
+"use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ProductCard from "@/components/ui/core/ProductCard";
 import FilterSidebar from "./FilterSidebar";
