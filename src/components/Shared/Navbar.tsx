@@ -91,9 +91,9 @@ export default function Navbar() {
 
           {user?.email ? (
             <>
-              <Link href="/add-review">
+              <Link href="/review">
                 <Button className="rounded-full cursor-pointer">
-                  <LucideFilePlus2 /> Add Review
+                  <LucideFilePlus2 /> Review
                 </Button>
               </Link>
 
@@ -121,13 +121,12 @@ export default function Navbar() {
                   <DropdownMenuItem>
                     <Link
                       className="flex items-center justify-center gap-2"
-                      href={`/${user?.role}/dashboard`}
+                      href={`/dashboard`}
                     >
                       <RiDashboardHorizontalFill />
                       Dashboard
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>My Shop</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     className="bg-red-500 cursor-pointer"
