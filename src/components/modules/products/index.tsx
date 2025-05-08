@@ -1,8 +1,10 @@
+"use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ProductCard from "@/components/ui/core/ProductCard";
 import FilterSidebar from "./FilterSidebar";
+import { IProduct } from "@/types";
 
-const AllProducts = ({ products }: { products: any }) => {
+const AllProducts = ({ products }: { products: IProduct[] }) => {
   return (
     <div className="flex lg:flex-row flex-col justify-start items-start gap-8 my-10 mt-20">
       <div className="w-full max-w-sm md:block border border-gray-300 rounded-2xl ">

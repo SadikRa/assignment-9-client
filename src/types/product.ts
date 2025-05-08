@@ -10,17 +10,24 @@ export interface IProduct {
   updatedAt: string;
   companyId: string;
   reviews: Review[];
+  company?: {
+    id: string;
+    name: string;
+  } | null;
 }
+
+export type ProductCategory = "GADGETS" | "CLOTHING" | "BOOKS";
 
 export interface Review {
   id: string;
   title: string;
-  description: string;
   rating: number;
-  categoryId: string;
   productId: string;
   purchaseSource: string;
-  images: string;
+  premiumPrice: number;
+  previewContent: string;
+  fullContent: string;
+  images: string[];
   isPremium: boolean;
   accountId: string;
   status: string;
@@ -30,14 +37,21 @@ export interface Review {
   isDeleted: boolean;
   votes: Vote[];
   ReviewComment: ReviewComment[];
+  account: Account;
 }
 
 export interface Vote {
   id: string;
   reviewId: string;
   accountId: string;
+  upVote: number;
+  downVote: number;
   createdAt: string;
   updatedAt: string;
+  review?: {
+    title: string;
+    imageUrl?: string;
+  };
 }
 
 export interface ReviewComment {
@@ -48,4 +62,16 @@ export interface ReviewComment {
   createdAt: string;
   updatedAt: string;
   isDeleted: boolean;
+}
+
+export interface Account {
+  id: string;
+  email: string;
+  password: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
+  isDeleted: boolean;
+  isCompleteProfile: boolean;
 }
