@@ -5,6 +5,7 @@
 ```bash
 git clone https://github.com/SadikRa/assignment-9-client.git
 cd assignment-9-server
+```
 
 📦 2. Install Dependencies
 
@@ -41,9 +42,11 @@ Then, open .env and update your environment variables (like DATABASE_URL).
 
 Always start from the latest main:
 
+```bash
 git checkout main
 git pull origin main
 git checkout -b yourName/feature-name
+```
 
     🔁 Replace:
 
@@ -62,20 +65,25 @@ feat, fix, docs, chore, refactor, etc.
 
 Stay up-to-date with main:
 
+```bash
 git checkout main
 git pull origin main
 git checkout yourName/feature-name
 git rebase main
+```
 
 If conflicts appear:
 
 # resolve conflicts manually, then
+
 git add .
 git rebase --continue
 
 ⬆️ Step 4: Push Your Work
 
+```bash
 git push -u origin yourName/feature-name
+```
 
 💡 Git Tips
 
