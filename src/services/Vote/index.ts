@@ -7,6 +7,7 @@ import { revalidateTag } from "next/cache";
 // Create vote
 export const createVote = async (voteData: {
   reviewId: string;
+  accountId: string;
   upVote: number;
   downVote: number;
 }) => {

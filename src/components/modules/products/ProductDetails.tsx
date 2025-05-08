@@ -18,6 +18,7 @@ import { addReview } from "@/services/Review";
 import { toast } from "sonner";
 import { useUser } from "@/context/UserContext";
 import { UserInfo } from "@/services/AuthService";
+import { createVote } from "@/services/Vote";
 
 type ReviewFormInput = {
   title: string;
@@ -73,26 +74,70 @@ export default function ProductReviewDetails({
       toast.error("User email is not available.");
       return;
     }
+
     const UserAccount = await UserInfo(user.email);
     const accountId = UserAccount?.data?.id;
-    // Call API to submit data here
-    // const votes = data.votes;  !** to be implemented to have voting system!!!
+    const votes = data.votes;
     const productId = product.id;
-    delete data.votes; // Remove votes from data before sending to API
-    const restReviewData = {
+
+    delete data.votes;
+
+    const reviewData = {
       ...data,
       productId,
       accountId,
     };
-    console.log("Review Submitted:", restReviewData);
+
+    const toastId = toast.loading("Submitting your review...");
+
     try {
-      const result = addReview(restReviewData);
-      toast.success("Review submitted successfully!");
-      console.log(result);
+      const result = await addReview(reviewData);
+
+      if (!result?.data?.id) {
+        toast.error("Failed to submit review.", { id: toastId });
+        return;
+      }
+
+      toast.success("Review submitted successfully!", { id: toastId });
+
+      const review_id = result.data.id;
+
+      const voteData = {
+        upVote: votes?.upVote || 0,
+        downVote: votes?.downVote || 0,
+        accountId,
+        reviewId: review_id,
+      };
+
+      const voteToastId = toast.loading("Submitting your vote...");
+
+      const voteResult = await createVote(voteData);
+
+      if (voteResult?.success) {
+        if (voteResult?.data?.upVote > 0) {
+          toast.success(
+            "You submitted an Upvote. Thanks for your recommendation.",
+            {
+              id: voteToastId,
+            }
+          );
+        } else if (voteResult?.data?.downVote > 0) {
+          toast.success("You submitted a Downvote. Thanks for your feedback.", {
+            id: voteToastId,
+          });
+        }
+      } else {
+        toast.error("Failed to submit vote.", { id: voteToastId });
+      }
+
       reset();
     } catch (error) {
-      toast.error("Failed to submit review. Please try again.");
-      console.error("Error submitting review:", error);
+      toast.error("Submission failed. Try again.", { id: toastId });
+      console.error("Submission error:", error);
+    } finally {
+      setStarRating(0);
+      setSelectedVote(null);
+      setValue("votes", { upVote: 0, downVote: 0 });
     }
   };
 
@@ -111,13 +156,6 @@ export default function ProductReviewDetails({
     },
     { upVotes: 0, downVotes: 0 }
   );
-
-  const totalComments = product.reviews.reduce((acc, review) => {
-    if (review.fullContent && review.fullContent.trim() !== "") {
-      return acc + (review.ReviewComment?.length || 0);
-    }
-    return acc;
-  }, 0);
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-6 space-y-10">
@@ -167,7 +205,7 @@ export default function ProductReviewDetails({
             |{" "}
             <p className="text-sm text-gray-500 flex items-center gap-2">
               <LiaComments className="h-6 w-6 text-yellow-600" />
-              Comments: {totalComments}
+              Comments: {product.reviews.length}
             </p>
           </div>
         </div>
