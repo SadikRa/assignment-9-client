@@ -42,6 +42,10 @@ export interface Vote {
   downVote: number;
   createdAt: string;
   updatedAt: string;
+  review?: {
+    title: string;
+    imageUrl?: string;
+  };
 }
 
 export interface ReviewComment {
