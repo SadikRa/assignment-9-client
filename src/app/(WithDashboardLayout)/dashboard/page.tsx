@@ -1,7 +1,16 @@
+"use client";
+import { useUser } from "@/context/UserContext";
+import React from "react";
+
 export default function UserDashboard() {
+  const { user } = useUser();
+
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Welcome back, User 👋</h1>
+      <h1 className="text-2xl font-semibold">
+        Welcome back, {user?.user?.name} (
+        {(user?.role as string).toLocaleLowerCase()}) 👋
+      </h1>
 
       {/* Overview Cards */}
       <div className="grid gap-4 md:grid-cols-3">

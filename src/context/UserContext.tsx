@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/services/AuthService";
+import { getCurrentUser, UserInfo } from "@/services/AuthService";
 import { IUser } from "@/types";
 import {
   createContext,
@@ -24,7 +24,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleUser = async () => {
     const user = await getCurrentUser();
-    setUser(user);
+    const userInfo = await UserInfo(user?.email as string);
+    setUser(userInfo.data);
     setIsLoading(false);
   };
 
