@@ -34,7 +34,7 @@ function SearchParamsHandler({
 
   useEffect(() => {
     onRedirect(redirect);
-    toast.info("Please Login First");
+    toast.info("Please Login");
   }, [redirect, onRedirect]);
 
   return null;
@@ -65,14 +65,16 @@ export default function LoginForm() {
     try {
       setIsLoading(true);
       const res = await loginUser(data);
+      // console.log(res);
       if (res?.success) {
         toast.success(res?.message);
         router.push(redirect || "/");
       } else {
-        toast.error(res?.message);
+        toast.error(res?.massage);
       }
     } catch (err: any) {
       console.error(err);
+      toast.error(err?.message);
     } finally {
       setIsLoading(false);
     }

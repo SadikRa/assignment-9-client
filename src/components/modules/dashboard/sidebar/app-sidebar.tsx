@@ -3,13 +3,13 @@
 import * as React from "react";
 import {
   Bot,
-  Frame,
   LifeBuoy,
   Map,
   PieChart,
-  Send,
   Settings,
   SquareTerminal,
+  SquareKanban,
+  ChartNoAxesCombined,
 } from "lucide-react";
 
 import {
@@ -26,15 +26,19 @@ import { NavUser } from "./nav-user";
 import Link from "next/link";
 import logo from "../../../../public/review/stars.gif";
 import Image from "next/image";
+import { useUser } from "@/context/UserContext";
 
 const data = {
-  navMain: [
+  navCommon: [
     {
       title: "Dashboard",
-      url: "/dashboard/",
+      url: "/dashboard",
       icon: SquareTerminal,
       isActive: true,
     },
+  ],
+
+  navAdmin: [
     {
       title: "Manage Products",
       url: "/dashboard/admin/product",
@@ -46,10 +50,39 @@ const data = {
         },
       ],
     },
+    {
+      title: "Manage Reviews",
+      url: "/dashboard/admin/reviews",
+      icon: SquareKanban,
+    },
+    {
+      title: "Payment Analytics",
+      url: "/dashboard/admin/analytics",
+      icon: ChartNoAxesCombined,
+    },
+  ],
 
+  navUser: [
+    {
+      title: "My Orders",
+      url: "/dashboard/user/orders",
+      icon: PieChart,
+    },
+    {
+      title: "My Reviews",
+      url: "/dashboard/user/reviews",
+      icon: LifeBuoy,
+    },
+    {
+      title: "My Cart",
+      url: "/dashboard/user/cart",
+      icon: Map,
+    },
+  ],
+  navFooter: [
     {
       title: "Settings",
-      url: "#",
+      url: "/profile",
       icon: Settings,
       items: [
         {
@@ -59,38 +92,10 @@ const data = {
       ],
     },
   ],
-  navSecondary: [
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useUser();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -112,10 +117,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navCommon} />
+        {user?.role === "ADMIN" && <NavMain items={data.navAdmin} />}
+        {user?.role === "USER" && <NavMain items={data.navUser} />}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser />
+        <NavUser items={data.navFooter} />
       </SidebarFooter>
     </Sidebar>
   );
