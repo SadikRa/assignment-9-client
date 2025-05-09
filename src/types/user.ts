@@ -1,17 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IUser {
-  _id: string;
-  name: string;
+  id: string;
   email: string;
-  imgUrl: string;
-  needsPasswordChange: boolean;
+  password: string;
   role: string;
-  status: string;
-  isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
-  number: string;
-  city: string;
-  colony: string;
-  postOffice: string;
-  subDistrict: string;
+  status: string;
+  isDeleted: boolean;
+  isCompleteProfile: boolean;
+  user: User;
+  reviews: any[];
+  votes: any[];
+  ReviewComment: any[];
+  Payment: any[];
+}
+
+export interface User {
+  id: string;
+  name: string;
+  accountId: string;
+  profileImage: any;
+  bio: any;
+  createdAt: string;
+  updatedAt: string;
+  isDeleted: boolean;
 }
