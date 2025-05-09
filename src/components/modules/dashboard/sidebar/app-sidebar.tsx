@@ -24,6 +24,8 @@ import {
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import Link from "next/link";
+import logo from "../../../../public/review/stars.gif";
+import Image from "next/image";
 
 const data = {
   navMain: [
@@ -98,7 +100,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <Link href="/">
                 <div className="flex items-center justify-center"></div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <h2 className="font-bold text-xl">Plated 4u</h2>
+                  <h1 className="text-2xl gap-1 font-black flex items-start">
+                    <Image alt="logo" src={logo} height={50} width={50} />{" "}
+                    <span className="text-gray-700">Criti</span>
+                    <span className="text-yellow-400">Check</span>
+                  </h1>
                 </div>
               </Link>
             </SidebarMenuButton>
