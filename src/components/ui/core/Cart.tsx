@@ -20,6 +20,7 @@ import Link from "next/link";
 import { createOrder } from "@/services/cart";
 import { toast } from "sonner";
 import Loading from "../loading";
+import { DollarSign } from "lucide-react";
 
 interface CartSidebarProps {
   isOpen: boolean;
@@ -98,55 +99,43 @@ const CartSidebar = ({ isOpen, setIsOpen }: CartSidebarProps) => {
 
         <div className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
           {cartItems.length > 0 ? (
-            cartItems.map((meal, idx) => (
+            cartItems.map((product, idx) => (
               <div key={idx} className="flex flex-col border-b pb-3">
                 <div className="flex items-center gap-4">
                   <Image
                     src={
-                      meal.imgUrl[0] ||
-                      "https://res.cloudinary.com/divyajujl/image/upload/v1741764173/j4bt4nnxmfnvetzdedoh.jpg"
+                      product.imageUrl ||
+                      "https://res.cloudinary.com/divyajujl/image/upload/v1746550148/online-learning-design-concept-top-view-student-table-with-tablet-headphone-stationeries-blue-table-background-1536x1025_u6sboo.jpg"
                     }
-                    alt={`${meal.meal_id ? meal.meal_id : "meal"}`}
+                    alt={`${product.productId ? product.productId : "product"}`}
                     width={100}
                     height={100}
                     className="rounded-lg"
                   />
                   <div className="flex-1">
                     <Link
-                      href={meal.productId}
+                      href={`products/${product.productId}`}
                       onClick={() => setIsOpen(!isOpen)}
                     >
                       <h3 className="text-sm font-semibold hover:underline">
-                        {meal.name}
+                        {product.name}
                       </h3>
                     </Link>
-                    <p className="text-gray-500 text-xs">
-                      {meal.calories} Calories | ${meal.price}
-                    </p>
+                    <div>
+                      <h3 className="text-sm font-semibold flex items-center gap-1">
+                        <DollarSign className="w-4 h-4" />
+                        {product.price}
+                      </h3>
+                    </div>
                   </div>
                   <button
                     className="text-red-500 hover:text-red-700"
-                    onClick={() => handleRemoveItem(meal?.cartItemId as string)} // Use cartItemId instead
+                    onClick={() =>
+                      handleRemoveItem(product?.cartItemId as string)
+                    } // Use cartItemId instead
                   >
                     <FiTrash2 size={18} />
                   </button>
-                </div>
-
-                <div className="text-xs text-gray-600 mt-2">
-                  <p>
-                    <strong>Base:</strong> {meal.baseOptions || "None"}
-                  </p>
-                  <p>
-                    <strong>Protein:</strong> {meal.proteinOptions || "None"}
-                  </p>
-                  <p>
-                    <strong>Extras:</strong>{" "}
-                    {meal.extras.length > 0 ? meal.extras.join(", ") : "None"}
-                  </p>
-                  <p>
-                    <strong>Dietary:</strong>{" "}
-                    {meal.dietaryPreferences || "None"}
-                  </p>
                 </div>
 
                 <div className="flex gap-2 mt-2 justify-end items-center">
@@ -156,15 +145,15 @@ const CartSidebar = ({ isOpen, setIsOpen }: CartSidebarProps) => {
                     variant="outline"
                     onClick={() =>
                       handleQuantityChange(
-                        meal.productId,
-                        Math.max(1, meal.orderedQuantity - 1)
+                        product.productId,
+                        Math.max(1, product.orderedQuantity - 1)
                       )
                     }
                   >
                     -
                   </Button>
                   <span className="text-sm font-semibold">
-                    {meal.orderedQuantity}
+                    {product.orderedQuantity}
                   </span>
                   <Button
                     className=" cursor-pointer"
@@ -172,8 +161,8 @@ const CartSidebar = ({ isOpen, setIsOpen }: CartSidebarProps) => {
                     variant="outline"
                     onClick={() =>
                       handleQuantityChange(
-                        meal.productId,
-                        meal.orderedQuantity + 1
+                        product.productId,
+                        product.orderedQuantity + 1
                       )
                     }
                   >
