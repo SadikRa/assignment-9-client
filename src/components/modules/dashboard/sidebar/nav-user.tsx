@@ -28,7 +28,6 @@ import { NavMain } from "./nav-main";
 export function NavUser({ items }: { items: any[] }) {
   const { isMobile } = useSidebar();
   const { user, setIsLoading } = useUser();
-
   const router = useRouter();
   const pathname = usePathname();
 
@@ -80,7 +79,7 @@ export function NavUser({ items }: { items: any[] }) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage alt={user?.user.name} />
+                  <AvatarImage alt={user?.user?.name} />
                   <AvatarFallback className="rounded-lg">
                     <Image
                       src={"https://github.com/shadcn.png"}

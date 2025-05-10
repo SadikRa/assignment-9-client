@@ -100,7 +100,7 @@ export default function Navbar() {
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar className="cursor-pointer border-yellow-400 border-2 h-10 w-10 p-1">
-                    <AvatarImage src={`${user.user.profileImage}`} />
+                    <AvatarImage src={`${user?.user?.profileImage}`} />
                     <AvatarFallback>
                       <Image
                         src={"https://github.com/shadcn.png"}
