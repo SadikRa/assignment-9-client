@@ -89,7 +89,7 @@ export default function Navbar() {
           </Button>
           <CartSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-          {user?.email ? (
+          {user ? (
             <>
               <Link href="/review">
                 <Button className="rounded-full cursor-pointer">
@@ -146,7 +146,7 @@ export default function Navbar() {
             </>
           ) : (
             <Link href="/login">
-              <Button className="rounded-lg" variant="outline">
+              <Button className="rounded-lg cursor-pointer" variant="outline">
                 Login
               </Button>
             </Link>

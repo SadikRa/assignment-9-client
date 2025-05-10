@@ -53,10 +53,10 @@ export default function CreateProductForm() {
   } = form;
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
-    if (!imageFile) {
-      toast.error("Please upload a product image");
-      return;
-    }
+    // if (!imageFile) {
+    //   toast.error("Please upload a product image");
+    //   return;
+    // }
 
     const productData = {
       name: data.name,
@@ -67,7 +67,9 @@ export default function CreateProductForm() {
 
     const formData = new FormData();
     formData.append("data", JSON.stringify(productData));
-    formData.append("image", imageFile);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
     const toastId = toast.loading("Creating product...");
     try {
       const res = await createProduct(formData);
