@@ -8,14 +8,56 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  addProduct,
+  orderedProductsSelector,
+} from "@/redux/features/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 import { IProduct } from "@/types"; // Updated type for product
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { MdOutlineRateReview } from "react-icons/md";
+import { toast } from "sonner";
 
 const ProductCard = ({ product }: { product: IProduct }) => {
+  const dispatch = useAppDispatch();
+  const cartItems = useAppSelector(orderedProductsSelector);
+  const isProductInCart = cartItems.some(
+    (item) => item.productId === product.id
+  );
+
+  const totalRating = product.reviews.reduce((acc, review) => {
+    return acc + review.rating;
+  }, 0);
+  const averageRating = (totalRating / product.reviews.length).toFixed(1);
+
+  const totalVotes = product.reviews.reduce(
+    (acc, review) => {
+      review.votes.forEach((vote) => {
+        acc.upVotes += vote.upVote;
+        acc.downVotes += vote.downVote;
+      });
+      return acc;
+    },
+    { upVotes: 0, downVotes: 0 }
+  );
+
+  const handleAddToCart = () => {
+    if (isProductInCart) {
+      return toast.error("Product already in cart");
+    }
+    const cartItem = {
+      productId: product.id,
+      name: product.name,
+      imageUrl: product.imageUrl,
+      price: product.price,
+      orderedQuantity: 1,
+      company: product?.company,
+    };
+    dispatch(addProduct(cartItem));
+  };
   return (
     <div>
       <Card className="p-3 w-64">
@@ -53,7 +95,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
 
             <div className="flex items-center justify-center gap-1">
               <Star className="w-4 h-4" fill="orange" stroke="orange" />
-              <p className="text-sm">{product?.reviews.length}</p>
+              <p className="text-sm">{averageRating}</p>
             </div>
           </div>
           <div className="flex items-center justify-between my-2">
@@ -64,7 +106,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
             </p>
 
             <div className="flex items-center justify-center gap-1">
-              Recom By : {product.reviews.length}
+              Recom By : {totalVotes.upVotes}
             </div>
           </div>
         </CardContent>
@@ -75,12 +117,21 @@ const ProductCard = ({ product }: { product: IProduct }) => {
               <Button
                 size="sm"
                 variant="outline"
-                className="w-32 cursor-pointer text-center flex items-center"
+                className=" cursor-pointer text-center flex items-center"
               >
                 <MdOutlineRateReview />
                 Review
               </Button>
             </Link>
+            <Button
+              onClick={() => handleAddToCart()}
+              size="sm"
+              variant="outline"
+              className=" cursor-pointer text-center flex items-center"
+            >
+              <MdOutlineRateReview />
+              Add to Cart
+            </Button>
           </div>
         </CardFooter>
       </Card>
