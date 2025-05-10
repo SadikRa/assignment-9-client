@@ -99,7 +99,7 @@ export default function ReviewModal({ isOpen, onClose, review }: Props) {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          toast.loading("Marking as Premium", { id: toastId });
+          toast.loading("Publishing Review", { id: toastId });
           const reviewData = {
             productId: review?.productId,
             accountId: review?.accountId,

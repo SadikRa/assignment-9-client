@@ -58,23 +58,35 @@ export default function CreateProductForm() {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("price", data.price);
-    formData.append("description", data.description);
-    formData.append("category", data.category);
-    formData.append("image", imageFile);
+    const productData = {
+      name: data.name,
+      price: parseFloat(data.price),
+      description: data.description,
+      category: data.category,
+    };
 
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(productData));
+    formData.append("image", imageFile);
+    const toastId = toast.loading("Creating product...");
     try {
       const res = await createProduct(formData);
       if (res?.success) {
-        toast.success("Product created successfully");
-        router.push("/dashboard/products");
+        // console.log(res);
+        toast.success("Product created successfully", {
+          id: toastId,
+        });
+        router.push("/dashboard");
       } else {
-        toast.error(res?.message || "Failed to create product");
+        console.log(res);
+        toast.error(res?.message || "Failed to create product", {
+          id: toastId,
+        });
       }
     } catch (err) {
-      toast.error("An error occurred while creating the product");
+      toast.error("An error occurred while creating the product", {
+        id: toastId,
+      });
       console.error(err);
     }
   };
@@ -175,8 +187,14 @@ export default function CreateProductForm() {
                 {imagePreview && (
                   <ImagePreviewer
                     imagePreview={[imagePreview]}
-                    setImagePreview={(prev) => setImagePreview(prev[0] || null)}
-                    setImageFiles={(prev) => setImageFile(prev[0] || null)}
+                    setImagePreview={(prev) =>
+                      Array.isArray(prev) ? prev[0] || null : null
+                    }
+                    setImageFiles={(prev) => {
+                      if (Array.isArray(prev)) {
+                        setImageFile(prev[0] || null);
+                      }
+                    }}
                   />
                 )}
               </div>

@@ -50,7 +50,7 @@ export default function UpdateProductForm({
   const [imagePreview, setImagePreview] = useState<string | null>(
     existingImageUrl || null
   );
-
+  console.log({ imageWillBeAddedLater: imageFile });
   const form = useForm<ProductFormValues>({
     defaultValues: initialData,
   });
@@ -60,21 +60,19 @@ export default function UpdateProductForm({
   } = form;
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("price", data.price);
-    formData.append("description", data.description);
-    formData.append("category", data.category);
-
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
+    const updatedData = {
+      name: data.name,
+      price: parseFloat(data.price),
+      description: data.description,
+      category: data.category,
+    };
 
     try {
-      const res = await updateProduct(formData, productId);
+      const res = await updateProduct(updatedData, productId);
+      console.log(updatedData, productId);
       if (res?.success) {
         toast.success("Product updated successfully");
-        router.push("/dashboard/products");
+        router.push("/dashboard");
       } else {
         toast.error(res?.message || "Failed to update product");
       }
@@ -180,8 +178,14 @@ export default function UpdateProductForm({
                 {imagePreview && (
                   <ImagePreviewer
                     imagePreview={[imagePreview]}
-                    setImagePreview={(prev) => setImagePreview(prev[0] || null)}
-                    setImageFiles={(prev) => setImageFile(prev[0] || null)}
+                    setImagePreview={(prev) =>
+                      Array.isArray(prev) ? prev[0] || null : null
+                    }
+                    setImageFiles={(prev) => {
+                      if (Array.isArray(prev)) {
+                        setImageFile(prev[0] || null);
+                      }
+                    }}
                   />
                 )}
               </div>

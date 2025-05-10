@@ -2,6 +2,7 @@
 "use server";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
+import { FieldValues } from "react-hook-form";
 
 // get all products
 export const getAllProducts = async (
@@ -72,7 +73,7 @@ export const createProduct = async (productData: FormData): Promise<any> => {
 
 // update product
 export const updateProduct = async (
-  productData: FormData,
+  productData: FieldValues,
   productId: string
 ): Promise<any> => {
   try {
@@ -80,10 +81,11 @@ export const updateProduct = async (
       `${process.env.NEXT_PUBLIC_BASE_API}/product/update-product/${productId}`,
       {
         method: "PATCH",
-        body: productData,
         headers: {
           Authorization: (await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify(productData),
       }
     );
     revalidateTag("PRODUCT");
@@ -97,9 +99,9 @@ export const updateProduct = async (
 export const deleteProduct = async (productId: string): Promise<any> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/meals/delete-car/${productId}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/product/delete-product/${productId}`,
       {
-        method: "PATCH",
+        method: "DELETE",
         body: JSON.stringify({ isDeleted: true }),
         headers: {
           Authorization: (await cookies()).get("accessToken")!.value,

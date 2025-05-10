@@ -92,3 +92,23 @@ export const reviewComment = async (
     return Error(error);
   }
 };
+
+// delete review
+export const deleteReview = async (reviewId: string): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/review/delete-review/${reviewId}`,
+      {
+        method: "DELETE",
+        body: JSON.stringify({ isDeleted: true }),
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
+      }
+    );
+    revalidateTag("PRODUCT");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};

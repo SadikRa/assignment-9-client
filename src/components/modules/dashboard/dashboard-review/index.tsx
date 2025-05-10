@@ -9,6 +9,8 @@ import { Tooltip } from "@radix-ui/react-tooltip";
 import { useState } from "react";
 import ReviewModal from "../../reviews/reviewModal";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import { deleteReview } from "@/services/Review";
 
 const ManageReviewTable = ({ reviews }: { reviews: IReviews[] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,20 +54,21 @@ const ManageReviewTable = ({ reviews }: { reviews: IReviews[] }) => {
       cell: ({ row }) => {
         const item = row.original;
 
-        const handleDelete = async () => {
+        const handleDelete = async (id: string) => {
+          const toastId = toast.loading("Deleting Review...");
           try {
-            const res = await fetch(`/api/product/${item.id}`, {
-              method: "DELETE",
-            });
-
-            if (res.ok) {
-              window.location.reload();
-            } else {
-              alert("Failed to delete the product.");
+            const res = await deleteReview(id);
+            console.log(res);
+            if (res.success) {
+              toast.success("Review deleted successfully", {
+                id: toastId,
+              });
             }
           } catch (error) {
             console.error("Delete error:", error);
-            alert("Error deleting product.");
+            toast.error("Failed to delete Review", {
+              id: toastId,
+            });
           }
         };
 
@@ -106,7 +109,7 @@ const ManageReviewTable = ({ reviews }: { reviews: IReviews[] }) => {
               <TooltipTrigger>
                 <p
                   className="cursor-pointer duration-300 hover:text-red-500"
-                  onClick={handleDelete}
+                  onClick={() => handleDelete(item.id)}
                 >
                   <Trash2 />
                 </p>

@@ -13,7 +13,7 @@ const AllProductsPage = async ({
   const query = await searchParams;
 
   const { data: products } = await getAllProducts(undefined, undefined, query);
-  console.log(products);
+
   return (
     <CustomContainer>
       {/* Use inline styles for the background */}
