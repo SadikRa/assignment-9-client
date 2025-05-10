@@ -2,8 +2,10 @@
 // components/PaymentModal.tsx
 "use client";
 
+import { Label } from "@/components/ui/label";
 import { useUser } from "@/context/UserContext";
 import { createPayment } from "@/services/payment";
+import { DollarSign } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -26,8 +28,8 @@ const handlePayment = async (data: any) => {
   try {
     const paymentUrl = await createPayment(data);
     console.log("Payment URL:", paymentUrl);
-    if (paymentUrl.data.paymentUrl) {
-      window.location.href = await paymentUrl.data.paymentUrl.GatewayPageURL; // Redirect the user
+    if (paymentUrl.data) {
+      window.location.href = await paymentUrl.data.GatewayPageURL; // Redirect the user
       toast.loading("Navigating please wait...", { id: "paymentToastId" });
     } else {
       toast.error("Payment URL not received", { id: "paymentToastId" });
@@ -65,14 +67,19 @@ export default function PaymentModal({ isOpen, onClose }: Props) {
           Be A Premium Reviewer
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-          <input
-            {...register("amount")}
-            type="number"
-            className="w-full px-4 py-2 border rounded"
-            placeholder="Amount"
-            value={50}
-            readOnly
-          />
+          <div className="flex justify-center items-center">
+            <Label>
+              <DollarSign></DollarSign>
+            </Label>
+            <input
+              {...register("amount")}
+              type="number"
+              className="w-full px-4 py-2 border-none rounded "
+              placeholder="Amount"
+              value={500}
+              readOnly
+            />
+          </div>
           <input
             {...register("transactionId")}
             className="w-full px-4 py-2 border rounded"

@@ -56,19 +56,19 @@ export default function LoginForm() {
     }
   };
 
-  const defaultValue = {
-    email: "trrabby1@gmail.com",
-    password: "123456",
-  };
+  // const defaultValue = {
+  //   email: "trrabby1@gmail.com",
+  //   password: "123456",
+  // };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      setIsLoading(true);
       const res = await loginUser(data);
       // console.log(res);
       if (res?.success) {
         toast.success(res?.message);
         router.push(redirect || "/");
+        setIsLoading(true);
       } else {
         toast.error(res?.massage);
       }
@@ -107,7 +107,6 @@ export default function LoginForm() {
               <FormField
                 control={form.control}
                 name="email"
-                defaultValue={defaultValue.email}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
@@ -125,7 +124,6 @@ export default function LoginForm() {
               <FormField
                 control={form.control}
                 name="password"
-                defaultValue={defaultValue.password}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>
