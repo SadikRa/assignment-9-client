@@ -11,6 +11,7 @@ import ReviewModal from "../../reviews/reviewModal";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { deleteReview } from "@/services/Review";
+import Swal from "sweetalert2";
 
 const ManageReviewTable = ({ reviews }: { reviews: IReviews[] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,6 +30,28 @@ const ManageReviewTable = ({ reviews }: { reviews: IReviews[] }) => {
     {
       accessorKey: "rating",
       header: "Ratings",
+    },
+    {
+      accessorKey: "status",
+      cell: ({ row }) => {
+        const item = row.original;
+        return (
+          <div className="flex items-center justify-center">
+            {item.status === "APPROVED" ? (
+              <Badge className="bg-blue-400 text-white rounded-sm">
+                Published
+              </Badge>
+            ) : item.status === "PENDING" ? (
+              <Badge className="bg-black text-white rounded-sm">Pending</Badge>
+            ) : (
+              <Badge className="bg-red-500 text-white rounded-sm">
+                Rejected
+              </Badge>
+            )}
+          </div>
+        );
+      },
+      header: "Status",
     },
     {
       accessorKey: "isPremium",
@@ -55,22 +78,69 @@ const ManageReviewTable = ({ reviews }: { reviews: IReviews[] }) => {
         const item = row.original;
 
         const handleDelete = async (id: string) => {
-          const toastId = toast.loading("Deleting Review...");
-          try {
-            const res = await deleteReview(id);
-            console.log(res);
-            if (res.success) {
-              toast.success("Review deleted successfully", {
-                id: toastId,
-              });
+          // console.log(id);
+
+          Swal.fire({
+            title: "Want to delete this review?",
+            text: "You won't be able to revert this!",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes!",
+
+            showClass: {
+              popup: `
+                  animate__animated,
+                  animate__fadeInUp,
+                  animate__faster,
+                `,
+            },
+            hideClass: {
+              popup: `
+                  animate__animated
+                  animate__fadeOutDown
+                  animate__faster
+                `,
+            },
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              const toastId = toast.loading("Deleting Review...");
+              try {
+                const res = await deleteReview(id);
+                console.log(res);
+                if (res.success) {
+                  toast.success("Review deleted successfully", {
+                    id: toastId,
+                  });
+                }
+              } catch (err) {
+                console.error("Delete error:", err);
+                toast.error("Failed to delete Review", {
+                  id: toastId,
+                });
+              }
             }
-          } catch (error) {
-            console.error("Delete error:", error);
-            toast.error("Failed to delete Review", {
-              id: toastId,
-            });
-          }
+          });
         };
+
+        // const handleDelete = async (id: string) => {
+        //   const toastId = toast.loading("Deleting Review...");
+        //   try {
+        //     const res = await deleteReview(id);
+        //     console.log(res);
+        //     if (res.success) {
+        //       toast.success("Review deleted successfully", {
+        //         id: toastId,
+        //       });
+        //     }
+        //   } catch (error) {
+        //     console.error("Delete error:", error);
+        //     toast.error("Failed to delete Review", {
+        //       id: toastId,
+        //     });
+        //   }
+        // };
 
         return (
           <div className="flex gap-2 text-center">

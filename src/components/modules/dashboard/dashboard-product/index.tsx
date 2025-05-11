@@ -62,7 +62,7 @@ const ManageProductsTable = ({ products }: { products: IProduct[] }) => {
         };
 
         return (
-          <div className="flex gap-2">
+          <div className="flex gap-2 text-center">
             <Button
               className="cursor-pointer"
               size="sm"

@@ -23,3 +23,26 @@ export const createPayment = async (cusomerData: FieldValues): Promise<any> => {
     return Error(error);
   }
 };
+
+export const createPaymentForPremiumReview = async (
+  reviewId: string,
+  cusomerData: FieldValues
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/review/${reviewId}/init-payment`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cusomerData),
+      }
+    );
+    revalidateTag("PAYMENT");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
