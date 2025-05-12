@@ -45,11 +45,11 @@ export default function RegisterForm() {
   const { setIsLoading } = useUser();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("Form Data Submitted:", data);
+    // console.log("Form Data Submitted:", data);
     try {
       setIsLoading(true);
       const res = await registerUser(data);
-      console.log(res);
+      // console.log(res);
       if (res?.success) {
         toast.success(`${res?.message} please login`);
         router.push("/login");

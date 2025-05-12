@@ -1,4 +1,4 @@
-import CreateProductForm from "@/components/modules/dashboard/dashboard-product/CreateProductsForm";
+import CreateProductForm from "@/components/modules/dashboard/admin/dashboard-product/CreateProductsForm";
 
 const CreateProductPage = () => {
   return (

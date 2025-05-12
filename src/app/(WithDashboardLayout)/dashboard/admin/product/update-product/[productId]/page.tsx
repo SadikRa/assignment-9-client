@@ -1,4 +1,4 @@
-import UpdateProductForm from "@/components/modules/dashboard/dashboard-product/UpdateProductForm";
+import UpdateProductForm from "@/components/modules/dashboard/admin/dashboard-product/UpdateProductForm";
 import { getSingleProduct } from "@/services/Product";
 
 const UpdateProductPage = async ({

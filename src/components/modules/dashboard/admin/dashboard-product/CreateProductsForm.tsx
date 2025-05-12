@@ -80,7 +80,7 @@ export default function CreateProductForm() {
         });
         router.push("/dashboard");
       } else {
-        console.log(res);
+        // console.log(res);
         toast.error(res?.message || "Failed to create product", {
           id: toastId,
         });

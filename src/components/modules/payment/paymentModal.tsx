@@ -27,7 +27,7 @@ const handlePayment = async (data: any) => {
   toast.loading("Navigating to payment getway", { id: "paymentToastId" });
   try {
     const paymentUrl = await createPayment(data);
-    console.log("Payment URL:", paymentUrl);
+    // console.log("Payment URL:", paymentUrl);
     if (paymentUrl.data) {
       window.location.href = await paymentUrl.data.GatewayPageURL; // Redirect the user
       toast.loading("Navigating please wait...", { id: "paymentToastId" });
@@ -46,7 +46,7 @@ export default function PaymentModal({ isOpen, onClose }: Props) {
   const { register, handleSubmit, reset } = useForm<PaymentForm>({});
 
   const onSubmit = async (data: PaymentForm) => {
-    console.log("Payment Info:", data);
+    // console.log("Payment Info:", data);
     try {
       const result = await handlePayment(data);
       console.log(result);
