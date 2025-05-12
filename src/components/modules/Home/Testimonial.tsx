@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { getAllReviews } from "@/services/Review";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import Banner from "@/components/Shared/CustomBanner";
 
 interface Account {
   id: string;
@@ -46,7 +48,7 @@ export default function Testimonials() {
 
           setReviews(approvedReviews);
         } else {
-          throw new Error(response.message || "Failed to fetch reviews");
+          toast.error(response.message || "Failed to fetch reviews");
         }
       } catch (err) {
         console.error("Error fetching reviews:", err);
@@ -117,15 +119,17 @@ export default function Testimonials() {
   const currentReview = reviews[currentIndex];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className=" py-10 my-5 bg-gray-50 rounded-2xl">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
-          Customer Reviews
-        </h2>
+        <Banner
+          heading="Customer Reviews"
+          description="Real opinions from real users—our customer reviews speak the truth you
+          can trust."
+        />
 
-        <div className="max-w-4xl mx-auto relative">
+        <div className="max-w-4xl mx-auto  relative">
           {/* Review Card */}
-          <div className="bg-white rounded-xl shadow-md overflow-hidden">
+          <div className="bg-white mt-20 rounded-xl shadow-md overflow-hidden">
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
@@ -133,9 +137,9 @@ export default function Testimonials() {
                     <Image
                       src={
                         currentReview.account.imageUrl ||
-                        "https://ibb.co.com/20BwBX5m"
+                        "https://github.com/shadcn.png"
                       }
-                      alt={currentReview.account.name}
+                      alt={currentReview.account.name || "img"}
                       fill
                       className="object-cover"
                     />
