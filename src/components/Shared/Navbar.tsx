@@ -89,7 +89,7 @@ export default function Navbar() {
           </Button>
           <CartSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-          {user?.email ? (
+          {user ? (
             <>
               <Link href="/review">
                 <Button className="rounded-full cursor-pointer">
@@ -100,10 +100,16 @@ export default function Navbar() {
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar className="cursor-pointer border-yellow-400 border-2 h-10 w-10 p-1">
-                    <AvatarImage
-                      src={`${user.imgUrl}` || "https://github.com/shadcn.png"}
-                    />
-                    <AvatarFallback>User</AvatarFallback>
+                    <AvatarImage src={`${user?.user?.profileImage}`} />
+                    <AvatarFallback>
+                      <Image
+                        src={"https://github.com/shadcn.png"}
+                        alt="User"
+                        height={50}
+                        width={50}
+                        className="rounded-full"
+                      ></Image>
+                    </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -140,7 +146,7 @@ export default function Navbar() {
             </>
           ) : (
             <Link href="/login">
-              <Button className="rounded-lg" variant="outline">
+              <Button className="rounded-lg cursor-pointer" variant="outline">
                 Login
               </Button>
             </Link>

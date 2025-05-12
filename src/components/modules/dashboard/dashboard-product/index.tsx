@@ -4,6 +4,8 @@ import { IProduct } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { NMTable } from "@/components/ui/core/NMTable";
+import { deleteProduct } from "@/services/Product";
+import { toast } from "sonner";
 
 const ManageProductsTable = ({ products }: { products: IProduct[] }) => {
   const router = useRouter();
@@ -22,43 +24,61 @@ const ManageProductsTable = ({ products }: { products: IProduct[] }) => {
       accessorKey: "category",
       header: "Category",
     },
+
+    {
+      accessorKey: "createdAt",
+      cell: ({ row }) => {
+        const date = new Date(row.original.createdAt);
+        return date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "2-digit",
+        });
+      },
+      header: "Created At",
+    },
     {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
         const product = row.original;
 
-        const handleDelete = async () => {
+        const handleDelete = async (id: string) => {
+          const toastId = toast.loading("Deleting product...");
           try {
-            const res = await fetch(`/api/product/${product.id}`, {
-              method: "DELETE",
-            });
-
-            if (res.ok) {
-              window.location.reload();
-            } else {
-              alert("Failed to delete the product.");
+            const res = await deleteProduct(id);
+            console.log(res);
+            if (res.success) {
+              toast.success("Product deleted successfully", {
+                id: toastId,
+              });
             }
           } catch (error) {
             console.error("Delete error:", error);
-            alert("Error deleting product.");
+            toast.error("Failed to delete product", {
+              id: toastId,
+            });
           }
         };
 
         return (
-          <div className="flex gap-2">
+          <div className="flex gap-2 text-center">
             <Button
+              className="cursor-pointer"
               size="sm"
               variant="outline"
               onClick={() =>
-                router.push(
-                  `/dashboard/admin/product/update-product/${product.id}`
-                )
+                router.push(`/dashboard/product/update-product/${product.id}`)
               }
             >
               Edit
             </Button>
-            <Button size="sm" variant="destructive" onClick={handleDelete}>
+            <Button
+              className="cursor-pointer"
+              size="sm"
+              variant="destructive"
+              onClick={() => handleDelete(product.id)}
+            >
               Delete
             </Button>
           </div>
@@ -72,7 +92,7 @@ const ManageProductsTable = ({ products }: { products: IProduct[] }) => {
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">Manage Products</h1>
         <Button
-          onClick={() => router.push("/dashboard/admin/product/create-product")}
+          onClick={() => router.push("/dashboard/product/create-product")}
           size="sm"
         >
           Add Product

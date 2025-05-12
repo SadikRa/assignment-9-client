@@ -19,6 +19,14 @@ import { toast } from "sonner";
 import { useUser } from "@/context/UserContext";
 import { UserInfo } from "@/services/AuthService";
 import { createVote } from "@/services/Vote";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  addProduct,
+  orderedProductsSelector,
+} from "@/redux/features/cartSlice";
+import { PackagePlus, ShoppingCart } from "lucide-react";
+import PaymentModal from "../payment/paymentModal";
+import SecondPaymentModal from "../payment/secondPaymentModal";
 
 type ReviewFormInput = {
   title: string;
@@ -48,10 +56,19 @@ export default function ProductReviewDetails({
       votes: { upVote: 0, downVote: 0 },
     },
   });
+  const dispatch = useAppDispatch();
+  const cartItems = useAppSelector(orderedProductsSelector);
+  const isProductInCart = cartItems.some(
+    (item) => item.productId === product.id
+  );
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const [selectedVote, setSelectedVote] = useState<"up" | "down" | null>(null);
   const [starRating, setStarRating] = useState(0);
   const { user, isLoading } = useUser();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSecondModalOpen, setSecondModalOpen] = useState(false);
+  const [selectedReview, setSectedReview] = useState({});
 
   useEffect(() => {
     const container = scrollRef.current;
@@ -141,6 +158,21 @@ export default function ProductReviewDetails({
     }
   };
 
+  const handleAddToCart = () => {
+    if (isProductInCart) {
+      return toast.error("Product already in cart");
+    }
+    const cartItem = {
+      productId: product.id,
+      name: product.name,
+      imageUrl: product.imageUrl,
+      price: product.price,
+      orderedQuantity: 1,
+      company: product?.company,
+    };
+    dispatch(addProduct(cartItem));
+  };
+
   const totalRating = product.reviews.reduce((acc, review) => {
     return acc + review.rating;
   }, 0);
@@ -177,9 +209,35 @@ export default function ProductReviewDetails({
 
       {/* Product Info */}
       <section className="space-y-2">
-        <h1 className="text-4xl font-extrabold text-gray-900">
-          {product.name}
-        </h1>
+        <div className="flex md:flex-row flex-col  items-center justify-between">
+          <h1 className="text-4xl font-extrabold text-gray-900">
+            {product.name}
+          </h1>
+          <Button
+            onClick={() => handleAddToCart()}
+            size="sm"
+            variant="outline"
+            className=" cursor-pointer text-center flex items-center"
+          >
+            <ShoppingCart />
+            Add to Cart
+          </Button>
+
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            size="sm"
+            variant="outline"
+            className=" cursor-pointer text-center flex items-center"
+          >
+            <PackagePlus />
+            Premium Plan
+          </Button>
+          <PaymentModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </div>
+
         <p className="text-xl font-semibold text-green-700">
           ${product.price.toFixed(2)}
         </p>
@@ -226,9 +284,33 @@ export default function ProductReviewDetails({
                 key={review.id}
                 className="min-w-[600px]  flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow hover:shadow-md transition"
               >
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {review.title}
-                </h3>
+                <div className="flex justify-between">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {review.title}
+                  </h3>
+                  <div>
+                    {review.isPremium ? (
+                      <Button
+                        disabled
+                        variant={"outline"}
+                        className="cursor-pointer"
+                      >
+                        Premium Review
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => {
+                          setSecondModalOpen(true);
+                          setSectedReview(review);
+                        }}
+                        variant={"outline"}
+                        className="cursor-pointer"
+                      >
+                        + Mark as Premium (${review.premiumPrice})
+                      </Button>
+                    )}
+                  </div>
+                </div>
                 <p className="text-gray-700 mb-2 flex items-start gap-2">
                   <LiaComments className="w-8 h-8" />
                   {review.fullContent}
@@ -371,6 +453,12 @@ export default function ProductReviewDetails({
           <Button type="submit">Submit Review</Button>
         </form>
       </section>
+
+      <SecondPaymentModal
+        review={selectedReview}
+        isOpen={isSecondModalOpen}
+        onClose={() => setSecondModalOpen(false)}
+      />
     </main>
   );
 }

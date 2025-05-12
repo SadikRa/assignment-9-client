@@ -55,6 +55,27 @@ export default function CreateProductForm() {
   } = form;
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
+<<<<<<< HEAD
+=======
+    // if (!imageFile) {
+    //   toast.error("Please upload a product image");
+    //   return;
+    // }
+
+    const productData = {
+      name: data.name,
+      price: parseFloat(data.price),
+      description: data.description,
+      category: data.category,
+    };
+
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(productData));
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+    const toastId = toast.loading("Creating product...");
+>>>>>>> fddf5633a97790a7964e2a81c327ad5348accb80
     try {
       if (!imageFile) {
         toast.error("Please upload a product image");
@@ -72,13 +93,26 @@ export default function CreateProductForm() {
       const res = await createProduct(productData);
 
       if (res?.success) {
+<<<<<<< HEAD
         toast.success("Product created successfully");
         router.push("/dashboard/admin/product");
+=======
+        // console.log(res);
+        toast.success("Product created successfully", {
+          id: toastId,
+        });
+        router.push("/dashboard");
+>>>>>>> fddf5633a97790a7964e2a81c327ad5348accb80
       } else {
-        toast.error(res?.message || "Failed to create product");
+        console.log(res);
+        toast.error(res?.message || "Failed to create product", {
+          id: toastId,
+        });
       }
     } catch (err) {
-      toast.error("An error occurred while creating the product");
+      toast.error("An error occurred while creating the product", {
+        id: toastId,
+      });
       console.error(err);
     } finally {
       setIsUploading(false);
@@ -181,8 +215,14 @@ export default function CreateProductForm() {
                 {imagePreview && (
                   <ImagePreviewer
                     imagePreview={[imagePreview]}
-                    setImagePreview={(prev) => setImagePreview(prev[0] || null)}
-                    setImageFiles={(prev) => setImageFile(prev[0] || null)}
+                    setImagePreview={(prev) =>
+                      Array.isArray(prev) ? prev[0] || null : null
+                    }
+                    setImageFiles={(prev) => {
+                      if (Array.isArray(prev)) {
+                        setImageFile(prev[0] || null);
+                      }
+                    }}
                   />
                 )}
               </div>

@@ -34,7 +34,7 @@ function SearchParamsHandler({
 
   useEffect(() => {
     onRedirect(redirect);
-    toast.info("Please Login First");
+    toast.info("Please Login");
   }, [redirect, onRedirect]);
 
   return null;
@@ -56,23 +56,25 @@ export default function LoginForm() {
     }
   };
 
-  const defaultValue = {
-    email: "trrabby1@gmail.com",
-    password: "123456",
-  };
+  // const defaultValue = {
+  //   email: "trrabby1@gmail.com",
+  //   password: "123456",
+  // };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      setIsLoading(true);
       const res = await loginUser(data);
+      // console.log(res);
       if (res?.success) {
         toast.success(res?.message);
         router.push(redirect || "/");
+        setIsLoading(true);
       } else {
-        toast.error(res?.message);
+        toast.error(res?.massage);
       }
     } catch (err: any) {
       console.error(err);
+      toast.error(err?.message);
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +107,6 @@ export default function LoginForm() {
               <FormField
                 control={form.control}
                 name="email"
-                defaultValue={defaultValue.email}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
@@ -123,7 +124,6 @@ export default function LoginForm() {
               <FormField
                 control={form.control}
                 name="password"
-                defaultValue={defaultValue.password}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>

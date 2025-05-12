@@ -1,14 +1,12 @@
 import UpdateProductForm from "@/components/modules/dashboard/dashboard-product/UpdateProductForm";
 import { getSingleProduct } from "@/services/Product";
 
-interface UpdateProductPageProps {
-  params: {
-    productId: string;
-  };
-}
-
-const UpdateProductPage = async ({ params }: UpdateProductPageProps) => {
-  const { productId } = params;
+const UpdateProductPage = async ({
+  params,
+}: {
+  params: Promise<{ productId: string }>;
+}) => {
+  const { productId } = await params;
 
   const { data: product } = await getSingleProduct(productId);
 

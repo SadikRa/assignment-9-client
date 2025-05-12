@@ -25,23 +25,13 @@ export const addReview = async (reviewData: FieldValues): Promise<any> => {
   }
 };
 
-export const getAllReviews = async (
-  page?: string,
-  limit?: string,
-  query?: { [key: string]: string | string[] | undefined }
-) => {
+// get all reviews
+export const getAllReviews = async (page?: string, limit?: string) => {
   const params = new URLSearchParams();
-
-  if (query?.price) {
-    params.append("minPrice", "0");
-    params.append("maxPrice", query.price.toString());
-  }
 
   try {
     const res = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_BASE_API
-      }/review?limit=${limit}&page=${page}&${params.toString()}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/review?limit=${limit}&page=${page}&${params}`,
       {
         next: {
           tags: ["REVIEW"],
@@ -53,5 +43,73 @@ export const getAllReviews = async (
     return data;
   } catch (error: any) {
     return Error(error.message);
+  }
+};
+
+// make Premium
+export const makePremium = async (
+  id: string,
+  Data: FieldValues
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/review/update-review/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Data),
+      }
+    );
+    revalidateTag("REVIEW");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+// review Comment
+export const reviewComment = async (
+  id: string,
+  Data: FieldValues
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/review/update-review/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Data),
+      }
+    );
+    revalidateTag("REVIEW");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+// delete review
+export const deleteReview = async (reviewId: string): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/review/delete-review/${reviewId}`,
+      {
+        method: "DELETE",
+        body: JSON.stringify({ isDeleted: true }),
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
+      }
+    );
+    revalidateTag("PRODUCT");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
   }
 };
