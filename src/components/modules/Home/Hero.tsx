@@ -1,48 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { getAllProducts } from "@/services/Product";
 
-const slides = [
-  {
-    image:
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701675/Healthy-Meal-Delivery-Toronto-Matters_csceqi.jpg",
-    title: "Healthy & Nutritious Meals",
-    description: "Enjoy fresh, balanced meals made just for you.",
-  },
-  {
-    image:
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741701101/McDonald_dm32rp.jpg",
-    title: "Customized for Your Diet",
-    description: "Tailor your meal plans based on your dietary needs.",
-  },
-  {
-    image:
-      "https://res.cloudinary.com/divyajujl/image/upload/v1741706687/Maximize-Your-Restaurants-Profits_may3kc.png",
-    title: "Delivered to Your Doorstep",
-    description: "Convenient and delicious meals, ready when you are.",
-  },
-];
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string | null;
+  price: number;
+}
 
-// Dummy data
-const featuredReviews = [
-  {
-    id: "rev-1",
-    title: "Top Pick: Wireless Headphones",
-    rating: 5,
-    snippet: "Amazing sound and build quality...",
-  },
-  {
-    id: "rev-2",
-    title: "Budget-Friendly Blender",
-    rating: 4,
-    snippet: "Great performance for the price.",
-  },
-];
+interface Slide {
+  image: string;
+  title: string;
+  description: string;
+  price?: number;
+}
 
-const categories = ["Electronics", "Home Appliances", "Fitness", "Books"];
+const categories = ["GADGETS", "CLOTHING", "BOOKS"];
 
 const stats = {
   reviews: 245,
@@ -52,6 +32,9 @@ const stats = {
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [slides, setSlides] = useState<Slide[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -61,94 +44,147 @@ export default function Hero() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+
+        const [productsResponse] = await Promise.all([getAllProducts()]);
+
+        if (productsResponse.success) {
+          const products = productsResponse.data || [];
+
+          const productsWithImages = products.filter(
+            (product: { imageUrl: any }) => product.imageUrl
+          );
+          const topProducts =
+            productsWithImages.length >= 3
+              ? productsWithImages.slice(0, 3)
+              : products.slice(0, 3);
+
+          const formattedSlides = topProducts.map((product: Product) => ({
+            image: product.imageUrl || "https://ibb.co.com/27prvyN",
+            title: product.name,
+            description:
+              product.description ||
+              "Discover quality products tailored for you.",
+            price: product.price,
+          }));
+
+          setSlides(formattedSlides);
+        } else {
+          throw new Error(
+            productsResponse.message || "Failed to fetch products"
+          );
+        }
+      } catch (err: any) {
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="text-center py-20">
+        <p>Loading Hero Content...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-20 text-red-500">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  if (slides.length === 0) {
+    return (
+      <div className="text-center py-20">
+        <p>No products available to display.</p>
+      </div>
+    );
+  }
+
   return (
     <section className="text-white bg-gradient-to-r from-green-400 to-blue-500 py-20 relative overflow-hidden">
-      {/* Hero Carousel */}
       <div className="max-w-5xl mx-auto px-4 relative text-center">
-        <Image
-          height={60}
-          width={1200}
-          src={slides[currentSlide].image}
-          alt={slides[currentSlide].title}
-          className="w-full h-64 object-cover rounded-lg shadow-lg md:block hidden"
-        />
+        <div className="relative w-full h-64 rounded-lg shadow-lg overflow-hidden bg-gray-100">
+          <Image
+            src={slides[currentSlide].image}
+            alt={slides[currentSlide].title}
+            fill
+            className="object-cover"
+            priority
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "/placeholder-hero.jpg";
+            }}
+          />
+        </div>
+
         <h1 className="text-4xl md:text-5xl font-bold mt-6 drop-shadow-lg">
           {slides[currentSlide].title}
         </h1>
-        <p className="mt-3 text-lg md:text-xl drop-shadow-md">
+        {slides[currentSlide].price && (
+          <p className="text-xl font-semibold mt-2">
+            ${slides[currentSlide].price.toFixed(2)}
+          </p>
+        )}
+        <p className="mt-3 text-lg md:text-xl drop-shadow-md max-w-2xl mx-auto">
           {slides[currentSlide].description}
         </p>
-        <Button className="mt-6 px-6 py-3 text-lg font-semibold bg-white text-green-600 rounded-full shadow-lg hover:bg-gray-100 transition">
+        <Button className="mt-6 px-6 py-3 text-lg font-semibold bg-black text-white rounded-full shadow-lg hover:bg-zinc-900 transition">
           Explore Reviews
         </Button>
 
-        {/* Carousel Controls */}
-        <div className="absolute top-1/3 left-[-40px]  transform -translate-y-1/2">
-          <button
-            onClick={prevSlide}
-            className="bg-white hover:cursor-pointer  p-2 rounded-full shadow-md"
-          >
-            <ChevronLeft className="text-green-600 hover:text-amber-600 hover:scale-110 duration-500" />
-          </button>
-        </div>
-        <div className="absolute top-1/3 right-[-40px] transform -translate-y-1/2">
-          <button
-            onClick={nextSlide}
-            className="bg-white p-2 hover:cursor-pointer rounded-full shadow-md"
-          >
-            <ChevronRight className="text-green-600  hover:text-amber-600 hover:scale-110 duration-500" />
-          </button>
-        </div>
-      </div>
-
-      {/* Featured Reviews */}
-      <div className="mt-16 max-w-5xl mx-auto px-4">
-        <h2 className="text-2xl font-semibold mb-4">Featured Reviews</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          {featuredReviews.map((review) => (
-            <div
-              key={review.id}
-              className="bg-white text-black rounded-lg p-4 shadow-md"
+        {slides.length > 1 && (
+          <>
+            <button
+              onClick={prevSlide}
+              className="absolute top-1/4 left-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:scale-110 transition"
+              aria-label="Previous slide"
             >
-              <h3 className="text-lg font-bold">{review.title}</h3>
-              <p className="text-yellow-500">Rating: {review.rating}/5</p>
-              <p className="text-sm mt-1">{review.snippet}</p>
-            </div>
-          ))}
-        </div>
+              <ChevronLeft className="text-green-600 hover:text-amber-600" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute top-1/4 right-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:scale-110 transition"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="text-green-600 hover:text-amber-600" />
+            </button>
+          </>
+        )}
       </div>
 
-      {/* Categories */}
       <div className="mt-16 max-w-5xl mx-auto px-4">
         <h2 className="text-2xl font-semibold mb-4">Browse Categories</h2>
         <div className="flex flex-wrap gap-3">
-          {categories.map((cat) => (
+          {categories.map((category) => (
             <span
-              key={cat}
+              key={category}
               className="bg-white text-green-600 px-4 py-2 rounded-full shadow hover:bg-gray-100 cursor-pointer"
             >
-              {cat}
+              {category}
             </span>
           ))}
         </div>
       </div>
 
-      {/* Statistics */}
       <div className="mt-16 max-w-5xl mx-auto px-4 text-center">
         <h2 className="text-2xl font-semibold mb-4">Portal Statistics</h2>
         <div className="flex justify-center gap-8 text-white">
-          <div>
-            <p className="text-3xl font-bold">{stats.reviews}</p>
-            <p className="text-sm">Total Reviews</p>
-          </div>
-          <div>
-            <p className="text-3xl font-bold">{stats.users}</p>
-            <p className="text-sm">Active Users</p>
-          </div>
-          <div>
-            <p className="text-3xl font-bold">{stats.companies}</p>
-            <p className="text-sm">Registered Companies</p>
-          </div>
+          {Object.entries(stats).map(([key, value]) => (
+            <div key={key}>
+              <p className="text-3xl font-bold">{value}</p>
+              <p className="text-sm capitalize">{key.replace(/_/g, " ")}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

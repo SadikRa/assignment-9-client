@@ -51,16 +51,26 @@ export const getSingleProduct = async (productId: string) => {
 };
 
 // Create  product
-export const createProduct = async (productData: FormData): Promise<any> => {
+export const createProduct = async (productData: {
+  name: string;
+  price: number;
+  description: string;
+  category: string;
+  imageUrl: File;
+}): Promise<any> => {
+  console.log(productData);
+
+  const accessToken = (await cookies()).get("accessToken")?.value;
+  console.log(accessToken);
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/product/create-product`,
       {
         method: "POST",
-        body: productData,
         headers: {
-          Authorization: (await cookies()).get("accessToken")!.value,
+          Authorization: accessToken!,
         },
+        body: JSON.stringify(productData),
       }
     );
     revalidateTag("PRODUCT");

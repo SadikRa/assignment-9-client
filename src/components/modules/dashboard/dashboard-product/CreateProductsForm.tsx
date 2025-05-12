@@ -32,12 +32,14 @@ interface ProductFormValues {
   price: string;
   description: string;
   category: "GADGETS" | "CLOTHING" | "BOOKS";
+  imageUrl?: string;
 }
 
 export default function CreateProductForm() {
   const router = useRouter();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const form = useForm<ProductFormValues>({
     defaultValues: {
@@ -53,29 +55,33 @@ export default function CreateProductForm() {
   } = form;
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
-    if (!imageFile) {
-      toast.error("Please upload a product image");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("price", data.price);
-    formData.append("description", data.description);
-    formData.append("category", data.category);
-    formData.append("image", imageFile);
-
     try {
-      const res = await createProduct(formData);
+      if (!imageFile) {
+        toast.error("Please upload a product image");
+        return;
+      }
+
+      const productData = {
+        name: data.name,
+        price: parseFloat(data.price),
+        description: data.description,
+        category: data.category,
+        imageUrl: imageFile,
+      };
+
+      const res = await createProduct(productData);
+
       if (res?.success) {
         toast.success("Product created successfully");
-        router.push("/dashboard/products");
+        router.push("/dashboard/admin/product");
       } else {
         toast.error(res?.message || "Failed to create product");
       }
     } catch (err) {
       toast.error("An error occurred while creating the product");
       console.error(err);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -186,9 +192,9 @@ export default function CreateProductForm() {
               type="submit"
               className="w-full mt-6"
               size="lg"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isUploading}
             >
-              {isSubmitting ? "Creating..." : "Create Product"}
+              {isSubmitting || isUploading ? "Processing..." : "Create Product"}
             </Button>
           </form>
         </Form>
