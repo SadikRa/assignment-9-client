@@ -1,4 +1,4 @@
-import ManageProductsTable from "@/components/modules/dashboard/dashboard-product";
+import ManageProductsTable from "@/components/modules/dashboard/admin/dashboard-product";
 import { getAllProducts } from "@/services/Product";
 import { IProduct } from "@/types";
 

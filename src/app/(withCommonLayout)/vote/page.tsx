@@ -5,7 +5,7 @@ import { getAllVotes } from "@/services/Vote";
 
 const AllVotesPage = async () => {
   const { data: votes } = await getAllVotes();
-  console.log(votes);
+  // console.log(votes);
 
   return (
     <CustomContainer>
