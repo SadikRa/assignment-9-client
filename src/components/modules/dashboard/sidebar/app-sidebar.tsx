@@ -36,20 +36,20 @@ const data = {
       icon: SquareTerminal,
       isActive: true,
     },
+  ],
+
+  navAdmin: [
     {
       title: "Manage Products",
-      url: "/dashboard/product",
+      url: "/dashboard/admin/product",
       icon: Bot,
       items: [
         {
           title: "Create Product",
-          url: "/dashboard/product/create-product",
+          url: "/dashboard/admin/product/create-product",
         },
       ],
     },
-  ],
-
-  navAdmin: [
     {
       title: "Manage Reviews",
       url: "/dashboard/admin/reviews",
