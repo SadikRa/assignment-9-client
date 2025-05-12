@@ -14,10 +14,22 @@ const AllProducts = ({ products }: { products: IProduct[] }) => {
       <div className="w-full max-w-sm md:block border border-gray-300 rounded-2xl ">
         <FilterSidebar />
       </div>
-      <div>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+      <div className="w-full flex flex-col justify-center items-center">
+        <div className="hidden md:grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {productsNotDeleted?.map((product: any, idx: number) => (
-            <ProductCard key={idx} product={product} />
+            <div key={idx} className="w-full max-w-sm">
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
+        <div className="flex md:hidden justify-center items-center flex-col w-full ">
+          {productsNotDeleted?.map((product: any, idx: number) => (
+            <div
+              key={idx}
+              className="w-full max-w-sm gap-2 flex flex-col justify-center items-center"
+            >
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
       </div>

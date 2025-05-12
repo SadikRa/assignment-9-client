@@ -55,8 +55,6 @@ export default function CreateProductForm() {
   } = form;
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
-<<<<<<< HEAD
-=======
     // if (!imageFile) {
     //   toast.error("Please upload a product image");
     //   return;
@@ -75,7 +73,6 @@ export default function CreateProductForm() {
       formData.append("image", imageFile);
     }
     const toastId = toast.loading("Creating product...");
->>>>>>> fddf5633a97790a7964e2a81c327ad5348accb80
     try {
       if (!imageFile) {
         toast.error("Please upload a product image");
@@ -93,16 +90,11 @@ export default function CreateProductForm() {
       const res = await createProduct(productData);
 
       if (res?.success) {
-<<<<<<< HEAD
-        toast.success("Product created successfully");
-        router.push("/dashboard/admin/product");
-=======
         // console.log(res);
         toast.success("Product created successfully", {
           id: toastId,
         });
         router.push("/dashboard");
->>>>>>> fddf5633a97790a7964e2a81c327ad5348accb80
       } else {
         // console.log(res);
         toast.error(res?.message || "Failed to create product", {

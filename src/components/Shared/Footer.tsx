@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
-import logo from "@/public/cook.gif";
+import logo from "../../public/review/stars.gif";
 
 export default function Footer() {
   return (
@@ -14,7 +14,7 @@ export default function Footer() {
             <span className="text-yellow-400">Check</span>
           </h1>
         </Link>
-        <p className="mt-2 text-gray-500 w-2/3">
+        <p className="mt-2 text-gray-500 w-full md:w-2/3">
           A trusted platform where users share honest product reviews, ratings,
           and insights to help others make smarter buying decisions.
         </p>

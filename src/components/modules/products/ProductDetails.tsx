@@ -133,15 +133,18 @@ export default function ProductReviewDetails({
       if (voteResult?.success) {
         if (voteResult?.data?.upVote > 0) {
           toast.success(
-            "You submitted an Upvote. Thanks for your recommendation.",
+            "Thanks for your recommendation. Admin will publish your review.",
             {
               id: voteToastId,
             }
           );
         } else if (voteResult?.data?.downVote > 0) {
-          toast.success("You submitted a Downvote. Thanks for your feedback.", {
-            id: voteToastId,
-          });
+          toast.success(
+            "Thanks for your feedback. Admin will publish your review.",
+            {
+              id: voteToastId,
+            }
+          );
         }
       } else {
         toast.error("Failed to submit vote.", { id: voteToastId });
