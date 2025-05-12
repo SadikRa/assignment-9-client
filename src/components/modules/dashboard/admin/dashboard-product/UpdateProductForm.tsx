@@ -69,7 +69,7 @@ export default function UpdateProductForm({
 
     try {
       const res = await updateProduct(updatedData, productId);
-      console.log(updatedData, productId);
+      // console.log(updatedData, productId);
       if (res?.success) {
         toast.success("Product updated successfully");
         router.push("/dashboard");

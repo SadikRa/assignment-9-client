@@ -7,11 +7,11 @@ import { Eye, PenLine, Trash2 } from "lucide-react";
 import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tooltip } from "@radix-ui/react-tooltip";
 import { useState } from "react";
-import ReviewModal from "../../reviews/reviewModal";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { deleteReview } from "@/services/Review";
 import Swal from "sweetalert2";
+import ReviewModal from "@/components/modules/reviews/reviewModal";
 
 const ManageReviewTable = ({ reviews }: { reviews: IReviews[] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -108,7 +108,7 @@ const ManageReviewTable = ({ reviews }: { reviews: IReviews[] }) => {
               const toastId = toast.loading("Deleting Review...");
               try {
                 const res = await deleteReview(id);
-                console.log(res);
+                // console.log(res);
                 if (res.success) {
                   toast.success("Review deleted successfully", {
                     id: toastId,

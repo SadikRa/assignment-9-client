@@ -4,7 +4,6 @@ import * as React from "react";
 import {
   Bot,
   LifeBuoy,
-  Map,
   PieChart,
   Settings,
   SquareTerminal,
@@ -68,19 +67,14 @@ const data = {
 
   navUser: [
     {
-      title: "My Orders",
-      url: "/dashboard/user/orders",
-      icon: PieChart,
-    },
-    {
       title: "My Reviews",
       url: "/dashboard/user/reviews",
       icon: LifeBuoy,
     },
     {
-      title: "My Cart",
-      url: "/dashboard/user/cart",
-      icon: Map,
+      title: "My Payments",
+      url: "/dashboard/user/payments",
+      icon: PieChart,
     },
   ],
   navFooter: [
@@ -122,6 +116,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navCommon} />
+        {/* <NavMain items={data.navAdmin} />
+        <NavMain items={data.navUser} /> */}
+
         {user?.role === "ADMIN" && <NavMain items={data.navAdmin} />}
         {user?.role === "USER" && <NavMain items={data.navUser} />}
       </SidebarContent>

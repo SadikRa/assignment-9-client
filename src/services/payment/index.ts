@@ -46,3 +46,23 @@ export const createPaymentForPremiumReview = async (
     return Error(error);
   }
 };
+
+// get all payments
+export const getAllPayments = async (page?: string, limit?: string) => {
+  const params = new URLSearchParams();
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/payment?limit=${limit}&page=${page}&${params}`,
+      {
+        next: {
+          tags: ["PAYMENT"],
+        },
+      }
+    );
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    return Error(error.message);
+  }
+};

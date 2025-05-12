@@ -6,31 +6,33 @@ type Role = keyof typeof roleBasedPrivateRoutes;
 const authRoutes = ["/login", "/register"];
 
 const roleBasedPrivateRoutes = {
-  user: [/^\/user/, /^\/products/],
-  company: [/^\/company/, /^\/products/],
-  admin: [/^\/admin/, /^\/products/],
+  USER: [/^\/dashboard\/user/, /^\/products/, /^\/profile$/],
+  ADMIN: [/^\/dashboard\/admin/, /^\/products/, /^\/profile$/],
 };
 
 export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
   const userInfo = await getCurrentUser();
-
   if (!userInfo) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(
         new URL(
-          `http://localhost:3000/login?redirectPath=${pathname}`,
+          `${process.env.NEXT_PUBLIC_BASE_API}/login?redirectPath=${pathname}`,
           request.url
         )
       );
     }
   }
 
-  if (userInfo?.role && roleBasedPrivateRoutes[userInfo?.role as Role]) {
-    const routes = roleBasedPrivateRoutes[userInfo?.role as Role];
-    if (routes.some((route) => pathname.match(route))) {
+  if (userInfo?.role && roleBasedPrivateRoutes[userInfo.role as Role]) {
+    const allowedRoutes = roleBasedPrivateRoutes[userInfo.role as Role];
+    const isAuthorized = allowedRoutes.some((pattern) =>
+      pattern.test(pathname)
+    );
+
+    if (isAuthorized) {
       return NextResponse.next();
     }
   }
@@ -44,12 +46,8 @@ export const config = {
   matcher: [
     "/login",
     "/register",
-    "/admin",
-    "/admin/:page",
-    "/company",
-    "/company/:page",
-    "/user",
-    "/user/:page",
-    "/products/:page",
+    "/dashboard/:path*",
+    "/products/:path*",
+    "/profile",
   ],
 };

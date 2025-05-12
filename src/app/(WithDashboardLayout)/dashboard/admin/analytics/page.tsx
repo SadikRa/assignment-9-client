@@ -1,10 +1,15 @@
-import React from "react";
+import { getAllPayments } from "@/services/payment";
 
-const Page = () => {
+import { NMTable } from "@/components/ui/core/NMTable";
+import { PaymentColumns } from "@/components/modules/dashboard/admin/dashboard-payment";
+
+const Page = async () => {
+  const { data: PaymentData } = await getAllPayments();
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Analytics</h1>
-      <p className="mt-4">This is the analytics page.</p>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Payment Analytics</h1>
+      <NMTable columns={PaymentColumns} data={PaymentData} />
     </div>
   );
 };

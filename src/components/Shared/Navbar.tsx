@@ -1,6 +1,6 @@
 "use client";
 import logo from "../../public/review/stars.gif";
-import { LogOut, LucideFilePlus2 } from "lucide-react";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -91,12 +91,6 @@ export default function Navbar() {
 
           {user ? (
             <>
-              <Link href="/review">
-                <Button className="rounded-full cursor-pointer">
-                  <LucideFilePlus2 /> Review
-                </Button>
-              </Link>
-
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar className="cursor-pointer border-yellow-400 border-2 h-10 w-10 p-1">
