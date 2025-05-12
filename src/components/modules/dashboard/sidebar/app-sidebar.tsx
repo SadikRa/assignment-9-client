@@ -25,6 +25,7 @@ import { NavUser } from "./nav-user";
 import Link from "next/link";
 import logo from "../../../../public/review/stars.gif";
 import Image from "next/image";
+import { useUser } from "@/context/UserContext";
 
 const data = {
   navCommon: [
@@ -88,6 +89,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useUser();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -110,11 +112,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navCommon} />
-        <NavMain items={data.navAdmin} />
-        <NavMain items={data.navUser} />
+        {/* <NavMain items={data.navAdmin} />
+        <NavMain items={data.navUser} /> */}
 
-        {/* {user?.role === "ADMIN" && <NavMain items={data.navAdmin} />}
-        {user?.role === "USER" && <NavMain items={data.navUser} />} */}
+        {user?.role === "ADMIN" && <NavMain items={data.navAdmin} />}
+        {user?.role === "USER" && <NavMain items={data.navUser} />}
       </SidebarContent>
       <SidebarFooter>
         <NavUser items={data.navFooter} />
