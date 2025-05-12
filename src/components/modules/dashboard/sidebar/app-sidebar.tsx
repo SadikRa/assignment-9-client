@@ -44,6 +44,10 @@ const data = {
       icon: Bot,
       items: [
         {
+          title: "Manage Products",
+          url: "/dashboard/admin/product",
+        },
+        {
           title: "Create Product",
           url: "/dashboard/admin/product/create-product",
         },

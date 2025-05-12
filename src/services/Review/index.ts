@@ -38,6 +38,7 @@ export const getAllReviews = async (page?: string, limit?: string) => {
         },
       }
     );
+
     const data = await res.json();
     return data;
   } catch (error: any) {

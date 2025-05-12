@@ -32,12 +32,14 @@ interface ProductFormValues {
   price: string;
   description: string;
   category: "GADGETS" | "CLOTHING" | "BOOKS";
+  imageUrl?: string;
 }
 
 export default function CreateProductForm() {
   const router = useRouter();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const form = useForm<ProductFormValues>({
     defaultValues: {
@@ -53,6 +55,8 @@ export default function CreateProductForm() {
   } = form;
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
+<<<<<<< HEAD
+=======
     // if (!imageFile) {
     //   toast.error("Please upload a product image");
     //   return;
@@ -71,14 +75,34 @@ export default function CreateProductForm() {
       formData.append("image", imageFile);
     }
     const toastId = toast.loading("Creating product...");
+>>>>>>> fddf5633a97790a7964e2a81c327ad5348accb80
     try {
-      const res = await createProduct(formData);
+      if (!imageFile) {
+        toast.error("Please upload a product image");
+        return;
+      }
+
+      const productData = {
+        name: data.name,
+        price: parseFloat(data.price),
+        description: data.description,
+        category: data.category,
+        imageUrl: imageFile,
+      };
+
+      const res = await createProduct(productData);
+
       if (res?.success) {
+<<<<<<< HEAD
+        toast.success("Product created successfully");
+        router.push("/dashboard/admin/product");
+=======
         // console.log(res);
         toast.success("Product created successfully", {
           id: toastId,
         });
         router.push("/dashboard");
+>>>>>>> fddf5633a97790a7964e2a81c327ad5348accb80
       } else {
         // console.log(res);
         toast.error(res?.message || "Failed to create product", {
@@ -90,6 +114,8 @@ export default function CreateProductForm() {
         id: toastId,
       });
       console.error(err);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -206,9 +232,9 @@ export default function CreateProductForm() {
               type="submit"
               className="w-full mt-6"
               size="lg"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isUploading}
             >
-              {isSubmitting ? "Creating..." : "Create Product"}
+              {isSubmitting || isUploading ? "Processing..." : "Create Product"}
             </Button>
           </form>
         </Form>
