@@ -53,7 +53,7 @@ const CartSidebar = ({ isOpen, setIsOpen }: CartSidebarProps) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    console.log(wholeCartInfo);
+    // console.log(wholeCartInfo);
     try {
       const res = await createOrder(wholeCartInfo);
       console.log(res);

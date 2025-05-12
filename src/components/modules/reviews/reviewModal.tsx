@@ -54,7 +54,7 @@ export default function ReviewModal({ isOpen, onClose, review }: Props) {
             accountId: review?.accountId,
             isPremium: true,
           };
-          console.log(reviewData);
+          // console.log(reviewData);
           const res = await makePremium(id, reviewData);
           if (res) {
             toast.success("Marked as Premium", { id: toastId });
@@ -105,7 +105,7 @@ export default function ReviewModal({ isOpen, onClose, review }: Props) {
             accountId: review?.accountId,
             status: "APPROVED",
           };
-          console.log(reviewData);
+          // console.log(reviewData);
           const res = await makePremium(id, reviewData);
           if (res) {
             toast.success("Review Published", { id: toastId });

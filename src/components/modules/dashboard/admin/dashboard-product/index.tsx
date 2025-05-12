@@ -47,7 +47,7 @@ const ManageProductsTable = ({ products }: { products: IProduct[] }) => {
           const toastId = toast.loading("Deleting product...");
           try {
             const res = await deleteProduct(id);
-            console.log(res);
+            // console.log(res);
             if (res.success) {
               toast.success("Product deleted successfully", {
                 id: toastId,
@@ -68,7 +68,9 @@ const ManageProductsTable = ({ products }: { products: IProduct[] }) => {
               size="sm"
               variant="outline"
               onClick={() =>
-                router.push(`/dashboard/product/update-product/${product.id}`)
+                router.push(
+                  `/dashboard/admin/product/update-product/${product.id}`
+                )
               }
             >
               Edit
@@ -92,7 +94,7 @@ const ManageProductsTable = ({ products }: { products: IProduct[] }) => {
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">Manage Products</h1>
         <Button
-          onClick={() => router.push("/dashboard/product/create-product")}
+          onClick={() => router.push("/dashboard/admin/product/create-product")}
           size="sm"
         >
           Add Product

@@ -36,7 +36,7 @@ export default function SecondPaymentModal({ review, isOpen, onClose }: Props) {
       const paymentUrl = await createPaymentForPremiumReview(review.id, data);
       const result = await makePremium(review.id, { isPremium: true });
       console.log(result);
-      console.log("Payment URL:", paymentUrl);
+      // console.log("Payment URL:", paymentUrl);
       if (paymentUrl.data) {
         window.location.href = await paymentUrl.data.paymentUrl; // Redirect the user
         toast.loading("Navigating please wait...", { id: "paymentToastId" });
@@ -51,7 +51,7 @@ export default function SecondPaymentModal({ review, isOpen, onClose }: Props) {
   };
 
   const onSubmit = async (data: PaymentForm) => {
-    console.log("Payment Info:", data);
+    // console.log("Payment Info:", data);
     try {
       const result = await handlePayment(data);
       console.log(result);
